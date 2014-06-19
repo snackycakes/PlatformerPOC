@@ -36,19 +36,19 @@ public class MarioGame extends Game {
 		marioWalking.addFrame(Assets.Sprites.SmallMarioWalkingRight1, 100);
 		marioWalking.addFrame(Assets.Sprites.SmallMarioWalkingRight2, 100);
 		marioWalking.addFrame(Assets.Sprites.SmallMarioWalkingRight3, 100);
-		marioWalking.addFrame(Assets.Sprites.SmallMarioWalkingRight2, 100);
 		
-		pawn = new Pawn();
+		pawn = new Pawn(45, 45);
 		pawn.addSpriteAsset(MarioMob.SpriteAssetTypes.DEFAULT.getValue(), marioWalking);
 	}
 
 	@Override
 	public void render(Graphics g, ImageObserver observer) {
-		g.drawImage(pawn.GetSpriteAsset().getSprite().getSpriteImage(), 0, 0, observer);
+		g.drawImage(pawn.GetSpriteAsset().getSprite().getSpriteImage(), pawn.getPositionX(), pawn.getPositionY(), observer);
 	}
 
 	@Override
 	public void update(long elapsedTime) {
+		pawn.setPosition(pawn.getPositionX() + 2, pawn.getPositionY());
 		pawn.update(elapsedTime);
 	}
 }

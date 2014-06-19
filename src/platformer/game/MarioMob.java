@@ -1,10 +1,23 @@
 package platformer.game;
 
 import platformer.framework.Mob;
+import platformer.framework.Position;
 import platformer.framework.SpriteAsset;
 
 public class MarioMob extends Mob {
 	
+	public MarioMob() {
+		super();
+	}
+
+	public MarioMob(int xPos, int yPos) {
+		super(xPos, yPos);
+	}
+
+	public MarioMob(Position position) {
+		super(position);
+	}
+
 	public enum SpriteAssetTypes {
         DEFAULT(1), STANDINGLEFT(2), STANDINGRIGHT(3), WALKINGLEFT(4), JUMPING(5);
 

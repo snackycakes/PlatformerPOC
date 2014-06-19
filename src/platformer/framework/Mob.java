@@ -7,6 +7,18 @@ public abstract class Mob extends Node {
 	protected HashMap<Integer, SpriteAsset> spriteAssets = new HashMap<Integer, SpriteAsset>();
 	protected SpriteAsset activeSpriteAsset = null;
 
+	public Mob() {
+		super();
+	}
+
+	public Mob(int xPos, int yPos) {
+		super(xPos, yPos);
+	}
+
+	public Mob(Position position) {
+		super(position);
+	}
+
 	public SpriteAsset GetSpriteAsset() {
 		return activeSpriteAsset; }
 	
