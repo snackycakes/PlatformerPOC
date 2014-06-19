@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 public abstract class Mob extends Node {
 	
-	protected HashMap<Integer, SpriteAsset> spriteAssets = new HashMap<Integer, SpriteAsset>();
 	protected SpriteAsset activeSpriteAsset = null;
 
 	public Mob() {
@@ -17,23 +16,14 @@ public abstract class Mob extends Node {
 
 	public Mob(Position position) {
 		super(position);
-	}
-
-	public SpriteAsset GetSpriteAsset() {
-		return activeSpriteAsset; }
+	}	
 	
-	public void addSpriteAsset(Integer assetKey, SpriteAsset spriteAsset) {
-		this.spriteAssets.put(assetKey, spriteAsset);
-		this.activeSpriteAsset = spriteAsset;
+	public SpriteAsset getActiveSpriteAsset() {
+		return activeSpriteAsset;
 	}
 
-	public HashMap<Integer, SpriteAsset> getSpriteAssets() {
-		return spriteAssets;
-	}
-
-	public void setSpriteAssets(HashMap<Integer, SpriteAsset> spriteAssets) {
-		this.activeSpriteAsset = null;
-		this.spriteAssets = spriteAssets;
+	public void setActiveSpriteAsset(SpriteAsset activeSpriteAsset) {
+		this.activeSpriteAsset = activeSpriteAsset;
 	}
 
 	@Override

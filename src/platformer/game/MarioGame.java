@@ -13,7 +13,7 @@ import platformer.framework.SpriteSheet;
 
 public class MarioGame extends Game {
 	private SpriteSheet marioSheet;
-	private Pawn pawn;
+	private Mario playerMario;
 
 	@Override
 	public void init() {		
@@ -31,24 +31,18 @@ public class MarioGame extends Game {
 		Assets.Sprites.SmallMarioWalkingLeft1 = marioSheet.getSprite(150, 0, 13, 16);
 		Assets.Sprites.SmallMarioWalkingLeft2 = marioSheet.getSprite(121, 0, 13, 16);
 		Assets.Sprites.SmallMarioWalkingLeft3 = marioSheet.getSprite(89, 0, 13, 16);
-
-		AnimatedSprite marioWalking = new AnimatedSprite();
-		marioWalking.addFrame(Assets.Sprites.SmallMarioWalkingRight1, 100);
-		marioWalking.addFrame(Assets.Sprites.SmallMarioWalkingRight2, 100);
-		marioWalking.addFrame(Assets.Sprites.SmallMarioWalkingRight3, 100);
 		
-		pawn = new Pawn(45, 45);
-		pawn.addSpriteAsset(MarioMob.SpriteAssetTypes.DEFAULT.getValue(), marioWalking);
+		playerMario = new Mario(45, 45);
 	}
 
 	@Override
 	public void render(Graphics g, ImageObserver observer) {
-		g.drawImage(pawn.GetSpriteAsset().getSprite().getSpriteImage(), pawn.getPositionX(), pawn.getPositionY(), observer);
+		g.drawImage(playerMario.getActiveSpriteAsset().getSprite().getSpriteImage(), playerMario.getPositionX(), playerMario.getPositionY(), observer);
 	}
 
 	@Override
 	public void update(long elapsedTime) {
-		pawn.setPosition(pawn.getPositionX() + 2, pawn.getPositionY());
-		pawn.update(elapsedTime);
+		playerMario.setPosition(playerMario.getPositionX() + 2, playerMario.getPositionY());
+		playerMario.update(elapsedTime);
 	}
 }
