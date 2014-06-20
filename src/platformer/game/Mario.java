@@ -8,8 +8,9 @@ import platformer.framework.SpriteAsset;
 
 public class Mario extends Actor {
 
-	public Mario() {
-		super();
+	@Override
+	protected void Init() {
+		super.Init();
 		
 		AnimatedSprite marioWalkingRight = new AnimatedSprite();
 		marioWalkingRight.addFrame(Assets.Sprites.SmallMarioWalkingRight1, 100);
@@ -18,7 +19,11 @@ public class Mario extends Actor {
 		marioWalkingRight.addFrame(Assets.Sprites.SmallMarioWalkingRight2, 100);
 		this.movingRight = marioWalkingRight;
 		
-		this.activeSpriteAsset = this.movingRight;
+		this.activeSpriteAsset = this.movingRight;		
+	}
+
+	public Mario() {
+		super();
 	}
 
 	public Mario(int xPos, int yPos) {

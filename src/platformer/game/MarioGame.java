@@ -42,7 +42,7 @@ public class MarioGame extends Game {
 
 	@Override
 	public void update(long elapsedTime) {
-		playerMario.setPosition(playerMario.getPositionX() + 2, playerMario.getPositionY());
+		playerMario.setPosition(playerMario.getCoordX() + (float)1, playerMario.getCoordY());
 		playerMario.update(elapsedTime);
 	}
 }

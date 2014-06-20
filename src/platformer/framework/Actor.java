@@ -6,8 +6,10 @@ public class Actor extends Mob {
 	protected SpriteAsset standingRight;
 	protected SpriteAsset movingLeft;
 	protected SpriteAsset movingRight;
+	protected SpriteAsset jumping;
 
 	public Actor() {
+		super();
 	}
 
 	public Actor(int xPos, int yPos) {

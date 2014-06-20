@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 public abstract class Mob extends Node {
 	
-	protected SpriteAsset activeSpriteAsset = null;
-
+	protected SpriteAsset activeSpriteAsset;
+	
 	public Mob() {
 		super();
 	}
@@ -16,8 +16,8 @@ public abstract class Mob extends Node {
 
 	public Mob(Position position) {
 		super(position);
-	}	
-	
+	}
+		
 	public SpriteAsset getActiveSpriteAsset() {
 		return activeSpriteAsset;
 	}
