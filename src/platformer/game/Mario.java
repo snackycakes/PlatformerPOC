@@ -1,12 +1,10 @@
 package platformer.game;
 
-import platformer.framework.Actor;
 import platformer.framework.AnimatedSprite;
-import platformer.framework.Mob;
+import platformer.framework.Pawn;
 import platformer.framework.Position;
-import platformer.framework.SpriteAsset;
 
-public class Mario extends Actor {
+public class Mario extends Pawn {
 
 	@Override
 	protected void Init() {
@@ -17,9 +15,16 @@ public class Mario extends Actor {
 		marioWalkingRight.addFrame(Assets.Sprites.SmallMarioWalkingRight2, 100);
 		marioWalkingRight.addFrame(Assets.Sprites.SmallMarioWalkingRight3, 100);
 		marioWalkingRight.addFrame(Assets.Sprites.SmallMarioWalkingRight2, 100);
-		this.movingRight = marioWalkingRight;
+		movingRight = marioWalkingRight;
 		
-		this.activeSpriteAsset = this.movingRight;		
+		AnimatedSprite marioWalkingLeft = new AnimatedSprite();
+		marioWalkingLeft.addFrame(Assets.Sprites.SmallMarioWalkingLeft1, 100);
+		marioWalkingLeft.addFrame(Assets.Sprites.SmallMarioWalkingLeft2, 100);
+		marioWalkingLeft.addFrame(Assets.Sprites.SmallMarioWalkingLeft3, 100);
+		marioWalkingLeft.addFrame(Assets.Sprites.SmallMarioWalkingLeft2, 100);
+		movingLeft = marioWalkingLeft;
+		
+		activeSpriteAsset = movingRight;		
 	}
 
 	public Mario() {

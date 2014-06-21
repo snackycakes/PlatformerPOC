@@ -1,6 +1,6 @@
 package platformer.framework;
 
-public class Actor extends Mob {
+public abstract class Actor extends Mob {
 	
 	protected SpriteAsset standingLeft;
 	protected SpriteAsset standingRight;
