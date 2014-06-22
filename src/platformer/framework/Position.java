@@ -6,6 +6,10 @@ public class Position {
 	private float xCoord;
 	private float yCoord;
 
+	public Position() {
+		setPosition(0, 0);
+	}
+	
 	public Position(int xPos, int yPos) {
 		setPosition(xPos, yPos);
 	}
@@ -58,5 +62,23 @@ public class Position {
 	public void setyCoord(float yCoord) {
 		this.yCoord = yCoord;
 		this.yPos = (int)yCoord;
-	}	
+	}
+	
+	public void copy(Position position) {
+		this.setxCoord(position.xCoord);
+		this.setyCoord(position.yCoord);
+	}
+	
+	public void addVelocity(Velocity velocity) {
+		this.setxCoord(this.xCoord + velocity.getSpeedX());
+		this.setyCoord(this.yCoord + velocity.getSpeedY());
+	}
+	
+	public void addToPositionY(float speedY) {
+		this.setyCoord(this.yCoord + speedY);
+	}
+	
+	public void addToPositionX(float speedX) {
+		this.setxCoord(this.xCoord + speedX);
+	}
 }

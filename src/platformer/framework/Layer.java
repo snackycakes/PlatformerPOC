@@ -6,7 +6,7 @@ public class Layer {
 	protected int depth;
 	
 	protected ArrayList<Pawn> pawns = new ArrayList<Pawn>();
-	protected Actor actors[][] = new Actor[200][200];
+	protected ArrayList<Actor> actors = new ArrayList<Actor>();
 	protected Tile tiles[][] = new Tile[200][200];
 	
 	public void addPawn(Pawn pawn) {
@@ -29,15 +29,13 @@ public class Layer {
 		return tiles[xPos][yPos];
 	}
 	
-	public void setActor(Actor actor, int xPos, int yPos) {
-		actors[xPos][yPos] = actor;
-	}
-	
-	public Actor getActor(int xPos, int yPos) {
-		return actors[xPos][yPos];
-	}
-	
 	public ArrayList<Pawn> getPawns(){
 		return pawns;
 	}
+	
+	public ArrayList<Actor> getActors(){
+		return actors;
+	}
+	
+	public void update(int elapsedTime) {}
 }

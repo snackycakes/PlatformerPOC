@@ -3,6 +3,11 @@ package platformer.game;
 import platformer.framework.Sprite;
 
 public class Assets {
+	
+	public final static int MAXLAYERWIDTH = 100;
+	public final static int MAXLAYERHEIGHT = 20;
+	public final static int TILESIZE = 16;
+	
 	public static class Sprites {
 		
 		// Mario Sprites

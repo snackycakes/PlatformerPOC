@@ -1,5 +1,6 @@
 package platformer.game;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.ImageObserver;
 import java.io.File;
@@ -9,56 +10,79 @@ import javax.imageio.ImageIO;
 
 import platformer.framework.AnimatedSprite;
 import platformer.framework.Game;
+import platformer.framework.HitBox;
+import platformer.framework.Layer;
+import platformer.framework.Pawn;
+import platformer.framework.Scene;
 import platformer.framework.SpriteSheet;
 import platformer.framework.Tile;
 
 public class MarioGame extends Game {
 	private Mario playerMario;
-	private final int MAXLAYERWIDTH = 100;
-	private final int MAXLAYERHEIGHT = 20;
-	private final int TILESIZE = 16;
 	
-	public MarioLevel level;
-	public MarioActionLayer actionLayer;
+	public Scene scene;
+	public Layer actionLayer;
 	
 
 	@Override
 	public void init() {			
 		LoadAssets();
 		
-		level = new MarioLevel();
-		actionLayer = new MarioActionLayer();
+		scene = new Scene();
+		actionLayer = new Layer();
 		actionLayer.setDepth(0);
 		
 		for (int xCount = 0; xCount < 50; xCount++) {
-			actionLayer.setTile(new MarioTile(Assets.Sprites.TileBrownFloor), xCount, 14);	
+			actionLayer.setTile(new MarioTile(Assets.Sprites.TileBrownFloor, xCount * Assets.TILESIZE, 14 * Assets.TILESIZE), xCount, 14);	
 		}
 		
 		playerMario = new Mario(50, 50);
+		//playerMario.setVelocity(1f, 1f);
+		
 		actionLayer.addPawn(playerMario);
+		
+		scene.addLayer(actionLayer);
 	}
 
 	@Override
 	public void update(long elapsedTime) {
-		playerMario.setPosition(playerMario.getCoordX() + 1f, playerMario.getCoordY());
-		playerMario.update(elapsedTime);
+		scene.update(elapsedTime);
 	}
 	
 	@Override
 	public void render(Graphics g, ImageObserver observer) {
 		
-		for (int index = 0; index < actionLayer.getPawns().size(); index++) {
-			g.drawImage(actionLayer.getPawns().get(index).getActiveSpriteAsset().getSprite().getSpriteImage(), playerMario.getPositionX(), playerMario.getPositionY(), observer);
-		}
-		
 		// TODO:  Only render what is in view
-		for (int xIndex = 0; xIndex < MAXLAYERWIDTH; xIndex++) {
-			for (int yIndex = 0; yIndex < MAXLAYERHEIGHT; yIndex++) {
+		for (int xIndex = 0; xIndex < Assets.MAXLAYERWIDTH; xIndex++) {
+			for (int yIndex = 0; yIndex < Assets.MAXLAYERHEIGHT; yIndex++) {
 				Tile tile = actionLayer.getTile(xIndex, yIndex);
 				if (tile != null) {
-					g.drawImage(tile.getActiveSpriteAsset().getSprite().getSpriteImage(), xIndex * TILESIZE, yIndex * TILESIZE, observer);
+					g.drawImage(tile.getActiveSprite().getSpriteImage(), xIndex * Assets.TILESIZE, yIndex * Assets.TILESIZE, observer);
+					
+					/*
+					// Test code to display hit boxes
+					for (int hbIndex = 0; hbIndex < tile.getActiveSpriteContainer().getHitBoxes().size(); hbIndex++) {
+						HitBox hitBox = tile.getActiveSpriteContainer().getHitBoxes().get(hbIndex);
+						g.setColor(Color.YELLOW);
+						g.drawRect(hitBox.getxPos(), hitBox.getyPos(), hitBox.getSizeX(), hitBox.getSizeY());
+					}
+					*/
 				}
 			}	
+		}
+		
+		for (int index = 0; index < actionLayer.getPawns().size(); index++) {
+			Pawn pawn = actionLayer.getPawns().get(index);
+			g.drawImage(pawn.getActiveSprite().getSpriteImage(), playerMario.getPositionX(), playerMario.getPositionY(), observer);
+			
+			/*
+			// Test code to display hit boxes
+			for (int hbIndex = 0; hbIndex < pawn.getActiveSpriteContainer().getHitBoxes().size(); hbIndex++) {
+				HitBox hitBox = pawn.getActiveSpriteContainer().getHitBoxes().get(hbIndex);
+				g.setColor(Color.YELLOW);
+				g.drawRect(hitBox.getxPos(), hitBox.getyPos(), hitBox.getSizeX(), hitBox.getSizeY());
+			}
+			*/
 		}
 	}
 	

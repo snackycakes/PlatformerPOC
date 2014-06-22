@@ -2,11 +2,11 @@ package platformer.framework;
 
 public abstract class Actor extends Mob {
 	
-	protected SpriteAsset standingLeft;
-	protected SpriteAsset standingRight;
-	protected SpriteAsset movingLeft;
-	protected SpriteAsset movingRight;
-	protected SpriteAsset jumping;
+	protected SpriteContainer standingLeft;
+	protected SpriteContainer standingRight;
+	protected SpriteContainer movingLeft;
+	protected SpriteContainer movingRight;
+	protected SpriteContainer jumping;
 
 	public Actor() {
 		super();

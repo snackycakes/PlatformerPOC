@@ -1,33 +1,61 @@
 package platformer.framework;
 
-public abstract class Tile {
-	Position position = new Position(0,0);
-	protected SpriteAsset activeSpriteAsset;
+public class Tile {
+	protected Position position;
+	protected SpriteContainer activeSpriteContainer;
 	
-	public SpriteAsset getActiveSpriteAsset() {
-		return activeSpriteAsset;
+	protected void init() {
+	}
+	
+	public Sprite getActiveSprite() {
+		return activeSpriteContainer.getSprite();
+	}
+	
+	public SpriteContainer getActiveSpriteContainer() {
+		return activeSpriteContainer;
 	}
 
-	public void setActiveSpriteAsset(SpriteAsset activeSpriteAsset) {
-		this.activeSpriteAsset = activeSpriteAsset;
-	}
-
-	protected void Init() {}
-	
-	public Tile(SpriteAsset activeSpriteAsset) {
-		this.activeSpriteAsset = activeSpriteAsset;
-		Init();
+	public void setActiveSpriteContainer(SpriteContainer activeSpriteContainer) {
+		this.activeSpriteContainer = activeSpriteContainer;
 	}
 	
-	public Tile(SpriteAsset activeSpriteAsset, Position position) {
-		this.activeSpriteAsset = activeSpriteAsset;
-		Init();
+	public void setActiveSpriteContainer(Sprite activeSprite) {
+		this.activeSpriteContainer = new StaticSprite(activeSprite, position);
 	}
 	
-	public Tile(SpriteAsset activeSpriteAsset, int xPos, int yPos) {
-		this.activeSpriteAsset = activeSpriteAsset;
-		Init();
+	public Tile(SpriteContainer activeSpriteContainer) {
+		position = new Position(0,0);
+		this.activeSpriteContainer = activeSpriteContainer;
+		init();
 	}
 	
-	public void update(long elapsedTime) {}
+	public Tile(SpriteContainer activeSpriteContainer, Position position) {
+		this.position = position;
+		this.activeSpriteContainer = activeSpriteContainer;
+		init();
+	}
+	
+	public Tile(SpriteContainer activeSpriteContainer, int xPos, int yPos) {
+		this.position = new Position(xPos, yPos);
+		this.activeSpriteContainer = activeSpriteContainer;
+		init();
+	}
+	
+	public Tile(Sprite activeSprite) {
+		this.position = new Position(0,0);
+		this.activeSpriteContainer = new StaticSprite(activeSprite, this.position);
+		init();
+	}
+	
+	public Tile(Sprite activeSprite, Position position) {
+		this.position = position;
+		this.activeSpriteContainer = new StaticSprite(activeSprite, this.position);
+		init();
+	}
+	
+	public Tile(Sprite activeSprite, int xPos, int yPos) {
+		this.position = new Position(xPos, yPos);
+		this.activeSpriteContainer = new StaticSprite(activeSprite, this.position);
+		init();
+	}
 }

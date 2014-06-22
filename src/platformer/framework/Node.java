@@ -1,23 +1,24 @@
 package platformer.framework;
 
 public abstract class Node {
-	Position position = new Position(0,0);
+	protected Position position;
 	
-	protected void Init() {}
+	protected void init() {
+		position = new Position();
+	}
 	
 	public Node() {
-		this.position = new Position(0,0);
-		Init();
+		init();
 	}
 	
 	public Node(Position position) {
+		init();
 		this.position = position;
-		Init();
 	}
 	
 	public Node(int xPos, int yPos) {
+		init();
 		this.setPosition(xPos, yPos);
-		Init();
 	}
 	
 	public void update(long elapsedTime) {}

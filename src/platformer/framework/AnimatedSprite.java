@@ -3,7 +3,7 @@ package platformer.framework;
 import java.awt.Image;
 import java.util.ArrayList;
 
-public class AnimatedSprite implements SpriteAsset {
+public class AnimatedSprite extends SpriteContainer {
 
 	private ArrayList<AnimFrame> frames;
 	private int currentFrame;
@@ -11,7 +11,7 @@ public class AnimatedSprite implements SpriteAsset {
 							// more accurate numbers.
 	private long totalDuration;
 
-	public AnimatedSprite() {
+	public AnimatedSprite(Position parentPosition) {
 		frames = new ArrayList<AnimFrame>();
 		totalDuration = 0;
 
@@ -26,7 +26,10 @@ public class AnimatedSprite implements SpriteAsset {
 		frames.add(new AnimFrame(sprite.getSpriteImage(), totalDuration));
 	}
 
-	public synchronized void update(long elapsedTime) {
+	@Override
+	public synchronized void update(long elapsedTime, Position parentPosition)  {
+		super.update(elapsedTime, parentPosition);
+		
 		if (frames.size() > 1) {
 			animTime += elapsedTime;
 			if (animTime >= totalDuration) {
