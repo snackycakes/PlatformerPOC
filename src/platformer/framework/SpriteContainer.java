@@ -5,9 +5,7 @@ import java.util.ArrayList;
 public abstract class SpriteContainer {
 	protected ArrayList<HitBox> hitBoxes = new ArrayList<HitBox>();
 	
-	public Sprite getSprite() {
-		return null;	
-	}
+	public abstract Sprite getSprite();
 	
 	public void update(long elapsedTime, Position parentPosition) {
 		for (int index = 0; index < hitBoxes.size(); index++) {

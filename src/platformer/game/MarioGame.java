@@ -14,6 +14,7 @@ import platformer.framework.HitBox;
 import platformer.framework.Layer;
 import platformer.framework.Pawn;
 import platformer.framework.Scene;
+import platformer.framework.Size;
 import platformer.framework.SpriteSheet;
 import platformer.framework.Tile;
 
@@ -31,13 +32,13 @@ public class MarioGame extends Game {
 		scene = new Scene();
 		actionLayer = new Layer();
 		actionLayer.setDepth(0);
+		actionLayer.setTileSize(new Size(Assets.TILESIZE, Assets.TILESIZE));
 		
 		for (int xCount = 0; xCount < 50; xCount++) {
 			actionLayer.setTile(new MarioTile(Assets.Sprites.TileBrownFloor, xCount * Assets.TILESIZE, 14 * Assets.TILESIZE), xCount, 14);	
 		}
 		
 		playerMario = new Mario(50, 50);
-		//playerMario.setVelocity(1f, 1f);
 		
 		actionLayer.addPawn(playerMario);
 		
@@ -89,6 +90,8 @@ public class MarioGame extends Game {
 	public void LoadAssets() {
 		SpriteSheet marioSheet = null;
 		
+		// Mario Sprite Assets
+		
 		try {
 			marioSheet = new SpriteSheet(ImageIO.read(new File("images/smb_mario_sheet.png")));
 		} catch (IOException e) {
@@ -105,6 +108,8 @@ public class MarioGame extends Game {
 		Assets.Sprites.SmallMarioWalkingLeft3 = marioSheet.getSprite(89, 0, 16, 16);
 		
 		marioSheet = null;
+		
+		// Tile Sprite Assets
 		
 		SpriteSheet tileSheet = null;
 		

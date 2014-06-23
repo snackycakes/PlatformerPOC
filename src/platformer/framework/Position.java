@@ -1,8 +1,6 @@
 package platformer.framework;
 
 public class Position {
-	private int xPos;
-	private int yPos;
 	private float xCoord;
 	private float yCoord;
 
@@ -29,20 +27,18 @@ public class Position {
 	}
 
 	public int getxPos() {
-		return xPos;
+		return (int)xCoord;
 	}
 
 	public void setxPos(int xPos) {
-		this.xPos = xPos;
 		this.xCoord = (float)xPos;
 	}
 
 	public int getyPos() {
-		return yPos;
+		return (int)yCoord;
 	}
 
 	public void setyPos(int yPos) {
-		this.yPos = yPos;
 		this.yCoord = (float)yPos;
 	}
 
@@ -52,7 +48,6 @@ public class Position {
 
 	public void setxCoord(float xCoord) {
 		this.xCoord = xCoord;
-		this.xPos = (int)xCoord;
 	}
 
 	public float getyCoord() {
@@ -61,7 +56,6 @@ public class Position {
 
 	public void setyCoord(float yCoord) {
 		this.yCoord = yCoord;
-		this.yPos = (int)yCoord;
 	}
 	
 	public void copy(Position position) {
