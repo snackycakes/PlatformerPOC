@@ -6,7 +6,8 @@ public abstract class Actor extends Mob {
 	protected SpriteContainer standingRight;
 	protected SpriteContainer movingLeft;
 	protected SpriteContainer movingRight;
-	protected SpriteContainer jumping;
+	protected SpriteContainer jumpingLeft;
+	protected SpriteContainer jumpingRight;
 
 	public Actor() {
 		super();

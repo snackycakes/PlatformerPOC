@@ -16,7 +16,7 @@ public class Mario extends Pawn {
 		marioWalkingRight.addFrame(Assets.Sprites.SmallMarioWalkingRight2, 100);
 		marioWalkingRight.addFrame(Assets.Sprites.SmallMarioWalkingRight3, 100);
 		marioWalkingRight.addFrame(Assets.Sprites.SmallMarioWalkingRight2, 100);
-		marioWalkingRight.addHitBox(new HitBox(position, new Position(2, 0), Assets.TILESIZE - 2, Assets.TILESIZE));
+		marioWalkingRight.addHitBox(new HitBox(position, new Position(2, 1), Assets.TILESIZE - 2, Assets.TILESIZE));
 		movingRight = marioWalkingRight;
 		
 		AnimatedSprite marioWalkingLeft = new AnimatedSprite(position);

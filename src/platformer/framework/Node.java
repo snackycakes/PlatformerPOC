@@ -4,21 +4,21 @@ public abstract class Node {
 	protected Position position;
 	
 	protected void init() {
-		position = new Position();
 	}
 	
 	public Node() {
+		position = new Position();
 		init();
 	}
 	
 	public Node(Position position) {
-		init();
 		this.position = position;
+		init();
 	}
 	
 	public Node(int xPos, int yPos) {
+		this.position = new Position(xPos, yPos);
 		init();
-		this.setPosition(xPos, yPos);
 	}
 	
 	public void update(long elapsedTime) {}

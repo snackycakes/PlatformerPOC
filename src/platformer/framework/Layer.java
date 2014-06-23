@@ -11,7 +11,7 @@ public class Layer {
 	protected ArrayList<Actor> actors = new ArrayList<Actor>();
 	protected Tile tiles[][] = new Tile[200][200];
 	protected Size tileSize = new Size(0, 0);
-	protected float gravity = 2.3f;
+	protected float gravity = 0f;
 	
 	public float getGravity() {
 		return gravity;
@@ -109,8 +109,10 @@ public class Layer {
 		mob.desiredPosition.addToPositionY(gravity);
 	}
 	
-	public Position getTileArrayPosition(Position pos) {
-		return new Position((int)(pos.getxPos() / tileSize.width), (int)(pos.getyPos() / tileSize.height));
+	public Position getTileArrayPosition(HitBox hitBox) {
+		int xPos = ((hitBox.getxPos() + hitBox.sizeX / 2)) / tileSize.width;
+		int yPos = ((hitBox.getyPos() + hitBox.sizeY / 2)) / tileSize.height;
+		return new Position(xPos, yPos);
 	}
 	
 	public ArrayList<TileCollision> checkTileCollisions(Mob mob) {
@@ -118,11 +120,14 @@ public class Layer {
 		
 		for (int hbIndex = 0; hbIndex < mob.getActiveSpriteContainer().getHitBoxes().size(); hbIndex++) {
 			HitBox hitBox = mob.getActiveSpriteContainer().getHitBoxes().get(hbIndex);
-			Position tileArrayPosition =  getTileArrayPosition(hitBox.position);
+			Position hitBoxTilePos =  getTileArrayPosition(hitBox);
+			int hitBoxTileWidth = (int)Math.ceil((double)hitBox.getSizeX() / tileSize.width);
+			int hitBoxTileHeight = (int)Math.ceil((double)hitBox.getSizeY() / tileSize.height);
 			
 			// check collision with tiles directly underneith hitbox
-			for (int yPos = tileArrayPosition.getyPos(); yPos < tileArrayPosition.getyPos() + hitBox.getSizeY(); yPos++) {
-				Tile tile = tiles[tileArrayPosition.getxPos() + hitBox.getSizeX()][yPos];
+			int yPos = hitBoxTilePos.getyPos() + hitBoxTileHeight;
+			for (int xPos = hitBoxTilePos.getxPos(); xPos < hitBoxTilePos.getxPos() + hitBoxTileWidth; xPos++) {
+				Tile tile = tiles[xPos][yPos];
 				if (tile != null) {
 					for (int tilehbIndex = 0; tilehbIndex < tile.getActiveSpriteContainer().getHitBoxes().size(); tilehbIndex++) {
 						HitBox tileHitBox = tile.getActiveSpriteContainer().getHitBoxes().get(tilehbIndex);
