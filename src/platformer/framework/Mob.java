@@ -1,14 +1,15 @@
 package platformer.framework;
 
+import java.util.ArrayList;
+
 public abstract class Mob extends Node {
-	
-	protected SpriteContainer activeSpriteContainer;
 	protected Position desiredPosition;
 	protected Velocity velocity;
+	protected Force appliedForce;
+	protected boolean desiredPositionAdjusted = false;
 		
-	@Override
 	protected void init() {
-		super.init();
+		appliedForce = new Force(0, 0);
 		velocity = new Velocity();
 		desiredPosition = new Position();
 		desiredPosition.copy(position);
@@ -16,44 +17,69 @@ public abstract class Mob extends Node {
 
 	public Mob() {
 		super();
+		init();
 	}
 
 	public Mob(int xPos, int yPos) {
 		super(xPos, yPos);
+		init();
 	}
 
 	public Mob(Position position) {
 		super(position);
+		init();
 	}
 	
-	public Sprite getActiveSprite() {
-		return activeSpriteContainer.getSprite();
-	}
-		
-	public SpriteContainer getActiveSpriteContainer() {
-		return activeSpriteContainer;
-	}
-
-	public void setActiveSpriteContainer(SpriteContainer ActiveSpriteContainer) {
-		this.activeSpriteContainer = ActiveSpriteContainer;
-	}
-
 	@Override
 	public void update(long elapsedTime) {
+		desiredPositionAdjusted = false;
+		
+		velocity.setSpeedX(Math.max(velocity.getSpeedX(), appliedForce.getForceX()));
+		velocity.setSpeedY(Math.max(velocity.getSpeedY(), appliedForce.getForceY())); 
+		appliedForce.setForce(0, 0);
+				
+		this.desiredPosition.copy(position);		
+		this.desiredPosition.addVelocity(velocity);
+		
 		if (activeSpriteContainer != null) {
 			activeSpriteContainer.update(elapsedTime, desiredPosition);
 		}
-		
-		this.desiredPosition.copy(position);		
-		this.desiredPosition.addVelocity(velocity);
 	}
 
+	
+	public void applyForce(Force force) {
+		appliedForce.addValue(force);
+	}
+	
+	public void applyForce(float forceX, float forceY) {
+		appliedForce.addValue(new Force(forceX, forceY));
+	}
+	
 	public Position getDesiredPosition() {
 		return desiredPosition;
 	}
 
 	public void setDesiredPosition(Position desiredPosition) {
+		desiredPositionAdjusted = true;
 		this.desiredPosition = desiredPosition;
+	}
+	
+	public int getDesiredPositionX() {
+		return desiredPosition.getxPos();
+	}
+	
+	public void setDesiredPositionX(int xPos) {
+		desiredPositionAdjusted = true;
+		this.desiredPosition.setxPos(xPos);
+	}
+	
+	public int getDesiredPositionY() {
+		return desiredPosition.getyPos();
+	}
+	
+	public void setDesiredPositionY(int yPos) {
+		desiredPositionAdjusted = true;
+		this.desiredPosition.setyPos(yPos);
 	}
 
 	public Velocity getVelocity() {
@@ -79,5 +105,10 @@ public abstract class Mob extends Node {
 	
 	public void commitDesiredPosition() {
 		this.position.copy(desiredPosition);
+		if (desiredPositionAdjusted) {
+			if (activeSpriteContainer != null) {
+				activeSpriteContainer.updateHitBoxes(position);
+			}
+		}
 	}
 }

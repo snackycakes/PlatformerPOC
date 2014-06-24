@@ -34,7 +34,7 @@ public class MarioGame extends Game {
 		
 		actionLayer = new Layer();
 		actionLayer.setDepth(0);
-		actionLayer.setGravity(3.1f);
+		actionLayer.setGravity(2f);
 		actionLayer.setTileSize(new Size(Assets.TILESIZE, Assets.TILESIZE));
 		actionLayer.addPawn(playerMario);
 		MarioTileLoader.LoadTilesFromFile(actionLayer);	

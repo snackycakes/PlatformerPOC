@@ -70,18 +70,20 @@ public class Layer {
 	}
 	
 	public void updateMob(Mob mob, long elapsedTime) {
+		mob.applyForce(0, gravity);
 		mob.update(elapsedTime);
-		applyGravity(mob);
 		
 		// check and respond to tile collisions
-		ArrayList<TileCollision> tileCollisions = checkTileCollisions(mob);
+		ArrayList<Collision> tileCollisions = checkTileCollisions(mob);
 		for (int colIndex = 0; colIndex < tileCollisions.size(); colIndex++) {
-			TileCollision tileCollision = tileCollisions.get(colIndex);
+			Collision tileCollision = tileCollisions.get(colIndex);
 			
 			switch (tileCollision.getCollisionType()) {
 				case LOWER:
-					mob.getDesiredPosition().copy(mob.getPosition());
-					mob.setVelocityY(0);
+					if (tileCollision.getCollisionNode().isStopsMovement()) {
+						mob.setVelocityY(0);
+						mob.setDesiredPositionY(mob.getDesiredPositionY() - ((tileCollision.getActiveHitBox().getyPos() + tileCollision.getActiveHitBox().getSizeY()) - tileCollision.getCollisionHitBox().getyPos()));
+					}
 					break;
 				case UPPER:
 					break;
@@ -105,18 +107,14 @@ public class Layer {
 		mob.commitDesiredPosition();
 	}
 	
-	public void applyGravity(Mob mob) {
-		mob.desiredPosition.addToPositionY(gravity);
-	}
-	
 	public Position getTileArrayPosition(HitBox hitBox) {
 		int xPos = ((hitBox.getxPos() + hitBox.sizeX / 2)) / tileSize.width;
 		int yPos = ((hitBox.getyPos() + hitBox.sizeY / 2)) / tileSize.height;
 		return new Position(xPos, yPos);
 	}
 	
-	public ArrayList<TileCollision> checkTileCollisions(Mob mob) {
-		ArrayList<TileCollision> tileCollisions = new ArrayList<TileCollision>();
+	public ArrayList<Collision> checkTileCollisions(Mob mob) {
+		ArrayList<Collision> tileCollisions = new ArrayList<Collision>();
 		
 		for (int hbIndex = 0; hbIndex < mob.getActiveSpriteContainer().getHitBoxes().size(); hbIndex++) {
 			HitBox hitBox = mob.getActiveSpriteContainer().getHitBoxes().get(hbIndex);
@@ -132,7 +130,7 @@ public class Layer {
 					for (int tilehbIndex = 0; tilehbIndex < tile.getActiveSpriteContainer().getHitBoxes().size(); tilehbIndex++) {
 						HitBox tileHitBox = tile.getActiveSpriteContainer().getHitBoxes().get(tilehbIndex);
 						if (hitBox.checkCollision(tileHitBox)){
-							tileCollisions.add(new TileCollision(CollisionType.LOWER, tile));
+							tileCollisions.add(new Collision(CollisionType.LOWER, hitBox, tile, tileHitBox));
 							break;
 						}
 					}

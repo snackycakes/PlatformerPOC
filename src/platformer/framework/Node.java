@@ -2,23 +2,35 @@ package platformer.framework;
 
 public abstract class Node {
 	protected Position position;
+	protected SpriteContainer activeSpriteContainer;
+	protected boolean stopsMovement = true;
 	
-	protected void init() {
+	public Sprite getActiveSprite() {
+		return activeSpriteContainer.getSprite();
+	}
+	
+	public SpriteContainer getActiveSpriteContainer() {
+		return activeSpriteContainer;
+	}
+
+	public void setActiveSpriteContainer(SpriteContainer activeSpriteContainer) {
+		this.activeSpriteContainer = activeSpriteContainer;
+	}
+	
+	public void setActiveSpriteContainer(Sprite activeSprite) {
+		this.activeSpriteContainer = new StaticSprite(activeSprite, position);
 	}
 	
 	public Node() {
 		position = new Position();
-		init();
 	}
 	
 	public Node(Position position) {
 		this.position = position;
-		init();
 	}
 	
 	public Node(int xPos, int yPos) {
 		this.position = new Position(xPos, yPos);
-		init();
 	}
 	
 	public void update(long elapsedTime) {}
@@ -49,5 +61,13 @@ public abstract class Node {
 	
 	public float getCoordY() {
 		return this.position.getyCoord();
+	}
+	
+	public boolean isStopsMovement() {
+		return stopsMovement;
+	}
+	
+	public void setStopsMovement(boolean stopsMovement) {
+		this.stopsMovement = stopsMovement;
 	}
 }

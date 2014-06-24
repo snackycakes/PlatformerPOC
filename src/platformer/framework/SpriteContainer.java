@@ -8,6 +8,10 @@ public abstract class SpriteContainer {
 	public abstract Sprite getSprite();
 	
 	public void update(long elapsedTime, Position parentPosition) {
+		updateHitBoxes(parentPosition);
+	}
+	
+	public void updateHitBoxes(Position parentPosition) {
 		for (int index = 0; index < hitBoxes.size(); index++) {
 			HitBox hitBox = hitBoxes.get(index);
 			if (hitBox != null) {

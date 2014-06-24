@@ -44,4 +44,9 @@ public class Velocity {
 	public void copy(Velocity velocity) {
 		this.setVelocity(velocity.speedX, velocity.speedY);
 	}
+	
+	public void addForce(Force force) {
+		this.speedX = this.speedX + force.getForceX();
+		this.speedY = this.speedY + force.getForceY();
+	}
 }
