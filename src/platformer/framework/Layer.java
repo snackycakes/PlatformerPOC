@@ -122,7 +122,7 @@ public class Layer {
 			int hitBoxTileWidth = (int)Math.ceil((double)hitBox.getSizeX() / tileSize.width);
 			int hitBoxTileHeight = (int)Math.ceil((double)hitBox.getSizeY() / tileSize.height);
 			
-			// check collision with tiles directly underneith hitbox
+			// check collision with tiles directly underneath hitbox
 			int yPos = hitBoxTilePos.getyPos() + hitBoxTileHeight;
 			for (int xPos = hitBoxTilePos.getxPos(); xPos < hitBoxTilePos.getxPos() + hitBoxTileWidth; xPos++) {
 				Tile tile = tiles[xPos][yPos];
