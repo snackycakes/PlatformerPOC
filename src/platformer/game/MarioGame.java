@@ -2,6 +2,7 @@ package platformer.game;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
@@ -126,5 +127,55 @@ public class MarioGame extends Game {
 		}
 		
 		Assets.Sprites.TileBrownFloor = tileSheet.getSprite(385, 144, 16, 16);
+	}
+	
+	public void keyPressed(KeyEvent e) {
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_UP:
+			break;
+
+		case KeyEvent.VK_DOWN:
+			break;
+
+		case KeyEvent.VK_LEFT:
+			playerMario.setMovingLeft(true);
+			break;
+
+		case KeyEvent.VK_RIGHT:
+			playerMario.setMovingRight(true);
+			break;
+
+		case KeyEvent.VK_SPACE:
+			playerMario.setJumping(true);
+			break;
+
+		case KeyEvent.VK_CONTROL:
+			break;
+		}
+	}
+	
+	public void keyReleased(KeyEvent e) {
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_UP:
+			break;
+
+		case KeyEvent.VK_DOWN:
+			break;
+
+		case KeyEvent.VK_LEFT:
+			playerMario.setMovingLeft(false);
+			break;
+
+		case KeyEvent.VK_RIGHT:
+			playerMario.setMovingRight(false);
+			break;
+
+		case KeyEvent.VK_SPACE:
+			playerMario.setJumping(false);
+			break;
+			
+		case KeyEvent.VK_CONTROL:
+			break;
+		}
 	}
 }

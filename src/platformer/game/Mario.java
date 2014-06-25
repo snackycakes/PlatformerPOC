@@ -40,5 +40,5 @@ public class Mario extends Pawn {
 
 	public Mario(Position position) {
 		super(position);
-	}
+	}	
 }

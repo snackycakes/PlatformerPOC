@@ -70,7 +70,15 @@ public class Layer {
 	}
 	
 	public void updateMob(Mob mob, long elapsedTime) {
+		// gravity logic
 		mob.applyForce(0, gravity);
+		
+		//place holder for friction
+		if (mob.getVelocity().getSpeedX() > 0) {
+			mob.applyForce(-1f, 0);
+		} else if (mob.getVelocity().getSpeedX() < 0) {
+			mob.applyForce(1f, 0);
+		}
 		mob.update(elapsedTime);
 		
 		// check and respond to tile collisions

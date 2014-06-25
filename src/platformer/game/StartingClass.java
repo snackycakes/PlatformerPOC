@@ -100,50 +100,12 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_UP:
-			System.out.println("Move up");
-			break;
-
-		case KeyEvent.VK_DOWN:			
-			break;
-
-		case KeyEvent.VK_LEFT:
-			break;
-
-		case KeyEvent.VK_RIGHT:
-			break;
-
-		case KeyEvent.VK_SPACE:			
-			break;
-
-		case KeyEvent.VK_CONTROL:
-			break;
-		}
+		marioGame.keyPressed(e);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_UP:
-			break;
-
-		case KeyEvent.VK_DOWN:
-			break;
-
-		case KeyEvent.VK_LEFT:
-			break;
-
-		case KeyEvent.VK_RIGHT:
-			break;
-
-		case KeyEvent.VK_SPACE:
-			break;
-			
-		case KeyEvent.VK_CONTROL:
-			break;
-		}
+		marioGame.keyReleased(e);
 	}
 
 	@Override

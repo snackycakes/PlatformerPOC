@@ -34,8 +34,13 @@ public abstract class Mob extends Node {
 	public void update(long elapsedTime) {
 		desiredPositionAdjusted = false;
 		
-		velocity.setSpeedX(Math.max(velocity.getSpeedX(), appliedForce.getForceX()));
-		velocity.setSpeedY(Math.max(velocity.getSpeedY(), appliedForce.getForceY())); 
+		if (appliedForce.getForceX() > 0) {
+			velocity.setSpeedX(Math.max(velocity.getSpeedX(), appliedForce.getForceX()));
+		} else if (appliedForce.getForceX() < 0) {
+			velocity.setSpeedX(Math.min(velocity.getSpeedX(), appliedForce.getForceX()));
+		}
+		velocity.setSpeedY(Math.max(velocity.getSpeedY(), appliedForce.getForceY()));		
+		
 		appliedForce.setForce(0, 0);
 				
 		this.desiredPosition.copy(position);		
@@ -45,7 +50,6 @@ public abstract class Mob extends Node {
 			activeSpriteContainer.update(elapsedTime, desiredPosition);
 		}
 	}
-
 	
 	public void applyForce(Force force) {
 		appliedForce.addValue(force);
