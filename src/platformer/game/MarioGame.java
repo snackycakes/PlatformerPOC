@@ -25,7 +25,6 @@ public class MarioGame extends Game {
 	public Scene scene;
 	public Layer actionLayer;
 	
-
 	@Override
 	public void init() {			
 		LoadAssets();
@@ -50,7 +49,7 @@ public class MarioGame extends Game {
 	
 	@Override
 	public void render(Graphics g, ImageObserver observer) {
-		boolean displayHitBoxes = false;
+		boolean displayHitBoxes = true;
 		boolean displayTileGrid = false;
 		
 		// TODO:  Only render what is in view
