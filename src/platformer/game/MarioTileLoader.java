@@ -118,6 +118,7 @@ public class MarioTileLoader {
 					}
 					else if(ch == 'H'){
 						MarioTile tile = new MarioTile(Assets.Sprites.HillLarge, i * Assets.TILESIZE, j * Assets.TILESIZE);
+						tile.setStopsMovement(false);
 						layer.setTile(tile, i, j);
 					}
 					else if(ch == '0'){
@@ -126,18 +127,22 @@ public class MarioTileLoader {
 					}
 					else if(ch == '1'){
 						MarioTile tile = new MarioTile(Assets.Sprites.BushLarge, i * Assets.TILESIZE, j * Assets.TILESIZE);
+						tile.setStopsMovement(false);
 						layer.setTile(tile, i, j);
 					}
 					else if(ch == '2'){
 						MarioTile tile = new MarioTile(Assets.Sprites.HillSmall, i * Assets.TILESIZE, j * Assets.TILESIZE);
+						tile.setStopsMovement(false);
 						layer.setTile(tile, i, j);
 					}
 					else if(ch == '3'){
 						MarioTile tile = new MarioTile(Assets.Sprites.CloudBlueSmall, i * Assets.TILESIZE, j * Assets.TILESIZE);
+						tile.setStopsMovement(false);
 						layer.setTile(tile, i, j);
 					}
 					else if(ch == '4'){
 						MarioTile tile = new MarioTile(Assets.Sprites.CloudBlueLarge, i * Assets.TILESIZE, j * Assets.TILESIZE);
+						tile.setStopsMovement(false);
 						layer.setTile(tile, i , j);
 					}
 				}
