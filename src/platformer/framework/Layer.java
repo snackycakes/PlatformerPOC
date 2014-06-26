@@ -11,7 +11,8 @@ public class Layer {
 	protected ArrayList<Actor> actors = new ArrayList<Actor>();
 	protected Tile tiles[][] = new Tile[200][200];
 	protected Size tileSize = new Size(0, 0);
-	protected float gravity = 0f;
+	protected float gravity = 2f;
+	protected float friction = 2f;
 	
 	public float getGravity() {
 		return gravity;
@@ -74,11 +75,12 @@ public class Layer {
 		mob.applyForce(0, gravity);
 		
 		//place holder for friction
-		if (mob.getVelocity().getSpeedX() > 0) {
-			mob.applyForce(-1f, 0);
+		if (mob.getVelocity().getSpeedX() >= 0) {
+			mob.applyForce(Math.max(mob.getVelocity().getSpeedX() - friction, 0f), 0f);
 		} else if (mob.getVelocity().getSpeedX() < 0) {
-			mob.applyForce(1f, 0);
+			mob.applyForce(Math.min(mob.getVelocity().getSpeedX() + friction, 0f), 0f);
 		}
+		
 		mob.update(elapsedTime);
 		
 		// check and respond to tile collisions

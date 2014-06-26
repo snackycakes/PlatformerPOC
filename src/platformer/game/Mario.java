@@ -6,6 +6,18 @@ import platformer.framework.Pawn;
 import platformer.framework.Position;
 
 public class Mario extends Pawn {
+	
+	public Mario() {
+		super();
+	}
+
+	public Mario(int xPos, int yPos) {
+		super(xPos, yPos);
+	}
+
+	public Mario(Position position) {
+		super(position);
+	}
 
 	@Override
 	protected void init() {
@@ -30,15 +42,14 @@ public class Mario extends Pawn {
 		activeSpriteContainer = movingRight;		
 	}
 
-	public Mario() {
-		super();
-	}
-
-	public Mario(int xPos, int yPos) {
-		super(xPos, yPos);
-	}
-
-	public Mario(Position position) {
-		super(position);
+	@Override
+	public void update(long elapsedTime) {
+		super.update(elapsedTime);
+		
+		if (isMovingRight) {
+			activeSpriteContainer = movingRight;
+		} else if (isMovingLeft) {
+			activeSpriteContainer = movingLeft;
+		}
 	}	
 }

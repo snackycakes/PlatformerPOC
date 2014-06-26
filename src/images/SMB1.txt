@@ -1,0 +1,28 @@
+! Super Mario Bros. - Level 1
+! # = Tile Legend
+! G = TileBrownFloor
+! W = GreenPipe
+! T = GreenPipeTop
+! B = BrownBrick
+! I = ItemBlock3
+! 0 = TileBrownFloorHalf
+! 1 = BushLarge
+! H = HillLarge
+! 2 = HillSmall
+! 3 = CloudBlueSmall
+! 4 = CloudBlueLarge
+
+
+
+
+
+                      I
+                      
+
+
+                I   BIBIB                     T          T 
+                                      T                   
+H                           T                             
+           1    2                     W       W          W 
+GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG  GG
+000000000000000000000000000000000000000000000000000000000000000000000  00

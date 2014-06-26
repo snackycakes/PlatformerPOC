@@ -27,7 +27,6 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	
 	private Graphics second;
 	private Image image;	
-	private SpriteSheet marioSheet;
 	private MarioGame marioGame = new MarioGame();
 
 	@Override

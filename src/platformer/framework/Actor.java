@@ -56,11 +56,38 @@ public abstract class Actor extends Mob {
 	public void update(long elapsedTime) {
 		if (isMovingRight) {
 			applyForce(movementForce, 0);
-		} else if (isMovingLeft) {
+		}
+		if (isMovingLeft) {
 			applyForce(-movementForce, 0);
-		} else if (isJumping) {
-			applyForce(0, jumpForce);
-		}	
+		}
+		if (isJumping) {
+			applyForce(0, -jumpForce);
+		}
+		
+		desiredPositionAdjusted = false;
+		
+		if (appliedForce.getForceX() >= velocity.getSpeedX()) {
+			velocity.setSpeedX(Math.max(velocity.getSpeedX(), appliedForce.getForceX()));
+		} else {
+			velocity.setSpeedX(Math.min(velocity.getSpeedX(), appliedForce.getForceX()));
+		}
+		
+		if (appliedForce.getForceY() >= velocity.getSpeedY()) {
+			velocity.setSpeedY(Math.max(velocity.getSpeedY(), appliedForce.getForceY()));
+		} else {
+			velocity.setSpeedY(Math.min(velocity.getSpeedY(), appliedForce.getForceY()));
+		}
+
+		velocity.setSpeedY(Math.max(velocity.getSpeedY(), appliedForce.getForceY()));		
+		
+		appliedForce.setForce(0, 0);
+				
+		this.desiredPosition.copy(position);		
+		this.desiredPosition.addVelocity(velocity);
+		
+		if (activeSpriteContainer != null) {
+			activeSpriteContainer.update(elapsedTime, desiredPosition);
+		}
 		
 		super.update(elapsedTime);
 	}

@@ -32,23 +32,6 @@ public abstract class Mob extends Node {
 	
 	@Override
 	public void update(long elapsedTime) {
-		desiredPositionAdjusted = false;
-		
-		if (appliedForce.getForceX() > 0) {
-			velocity.setSpeedX(Math.max(velocity.getSpeedX(), appliedForce.getForceX()));
-		} else if (appliedForce.getForceX() < 0) {
-			velocity.setSpeedX(Math.min(velocity.getSpeedX(), appliedForce.getForceX()));
-		}
-		velocity.setSpeedY(Math.max(velocity.getSpeedY(), appliedForce.getForceY()));		
-		
-		appliedForce.setForce(0, 0);
-				
-		this.desiredPosition.copy(position);		
-		this.desiredPosition.addVelocity(velocity);
-		
-		if (activeSpriteContainer != null) {
-			activeSpriteContainer.update(elapsedTime, desiredPosition);
-		}
 	}
 	
 	public void applyForce(Force force) {
