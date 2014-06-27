@@ -51,8 +51,8 @@ public class MarioGame extends Game {
 	
 	@Override
 	public void render(Graphics g, ImageObserver observer) {
-		boolean displayHitBoxes = true;
-		boolean displayTileGrid = true;
+		boolean displayHitBoxes = false;
+		boolean displayTileGrid = false;
 		
 		// TODO:  Only render what is in view
 		for (int xIndex = 0; xIndex < Assets.MAXLAYERWIDTH; xIndex++) {

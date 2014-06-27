@@ -10,8 +10,11 @@ public abstract class Actor extends Mob {
 	protected SpriteContainer jumpingRight;
 	
 	protected float movementForce = 2;
-	protected float jumpForce = 4;
+	protected float jumpForce = 6;
+	protected float jumpMaxFrames =25;
+	protected float jumpFrameCount = 0;
 	
+	protected boolean canJump = false;
 	protected boolean isMovingRight = false;
 	protected boolean isMovingLeft = false;
 	protected boolean isJumping = false;
@@ -49,7 +52,11 @@ public abstract class Actor extends Mob {
 	}
 
 	public void setJumping(boolean isJumping) {
-		this.isJumping = isJumping;
+		if (velocity.getSpeedY() == 0 && isJumping) {
+			this.isJumping = true;	
+		} else {
+			this.isJumping = false;
+		}
 	}
 
 	@Override
@@ -62,20 +69,25 @@ public abstract class Actor extends Mob {
 		}
 		if (isJumping) {
 			applyForce(0, -jumpForce);
+			jumpFrameCount++;
+			if (jumpFrameCount >= jumpMaxFrames) {
+				isJumping = false;
+				jumpFrameCount = 0;			
+			}
 		}
 		
 		desiredPositionAdjusted = false;
 		
-		if (appliedForce.getForceX() >= velocity.getSpeedX()) {
-			velocity.setSpeedX(Math.max(velocity.getSpeedX(), appliedForce.getForceX()));
-		} else {
-			velocity.setSpeedX(Math.min(velocity.getSpeedX(), appliedForce.getForceX()));
+		if (appliedForce.getForceX() >= 0) {
+			velocity.setSpeedX(Math.min(velocity.getSpeedX() + appliedForce.getForceX(), appliedForce.getForceX()));
+		} else if (appliedForce.getForceX() < 0) {
+			velocity.setSpeedX(Math.max(velocity.getSpeedX() + appliedForce.getForceX(), appliedForce.getForceX()));
 		}
 		
-		if (appliedForce.getForceY() >= velocity.getSpeedY()) {
-			velocity.setSpeedY(Math.max(velocity.getSpeedY(), appliedForce.getForceY()));
+		if (appliedForce.getForceY() >= 0) {
+			velocity.setSpeedY(Math.min(velocity.getSpeedY() + appliedForce.getForceY(), appliedForce.getForceY()));
 		} else {
-			velocity.setSpeedY(Math.min(velocity.getSpeedY(), appliedForce.getForceY()));
+			velocity.setSpeedY(Math.max(velocity.getSpeedY() + appliedForce.getForceY(), appliedForce.getForceY()));
 		}
 
 		velocity.setSpeedY(Math.max(velocity.getSpeedY(), appliedForce.getForceY()));		
