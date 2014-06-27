@@ -13,6 +13,7 @@ import platformer.framework.AnimatedSprite;
 import platformer.framework.Game;
 import platformer.framework.HitBox;
 import platformer.framework.Layer;
+import platformer.framework.Mob;
 import platformer.framework.Pawn;
 import platformer.framework.Scene;
 import platformer.framework.Size;
@@ -31,12 +32,13 @@ public class MarioGame extends Game {
 		
 		scene = new Scene();
 		playerMario = new Mario(50, 50);
+		scene.setPawn(playerMario);
 		
 		actionLayer = new Layer();
 		actionLayer.setDepth(0);
 		actionLayer.setGravity(2f);
 		actionLayer.setTileSize(new Size(Assets.TILESIZE, Assets.TILESIZE));
-		actionLayer.addPawn(playerMario);
+		actionLayer.addMob(playerMario);
 		MarioTileLoader.LoadTilesFromFile(actionLayer);	
 		
 		scene.addLayer(actionLayer);
@@ -50,7 +52,7 @@ public class MarioGame extends Game {
 	@Override
 	public void render(Graphics g, ImageObserver observer) {
 		boolean displayHitBoxes = true;
-		boolean displayTileGrid = false;
+		boolean displayTileGrid = true;
 		
 		// TODO:  Only render what is in view
 		for (int xIndex = 0; xIndex < Assets.MAXLAYERWIDTH; xIndex++) {
@@ -78,14 +80,14 @@ public class MarioGame extends Game {
 			}	
 		}
 		
-		for (int index = 0; index < actionLayer.getPawns().size(); index++) {
-			Pawn pawn = actionLayer.getPawns().get(index);
-			g.drawImage(pawn.getActiveSprite().getSpriteImage(), playerMario.getPositionX() - scene.getCameraPosition().getxPos(), playerMario.getPositionY(), observer);
+		for (int index = 0; index < actionLayer.getMobs().size(); index++) {
+			Mob mob = actionLayer.getMobs().get(index);
+			g.drawImage(mob.getActiveSprite().getSpriteImage(), playerMario.getPositionX() - scene.getCameraPosition().getxPos(), playerMario.getPositionY(), observer);
 			
 			// Test code to display hit boxes
 			if (displayHitBoxes) {
-				for (int hbIndex = 0; hbIndex < pawn.getActiveSpriteContainer().getHitBoxes().size(); hbIndex++) {
-					HitBox hitBox = pawn.getActiveSpriteContainer().getHitBoxes().get(hbIndex);
+				for (int hbIndex = 0; hbIndex < mob.getActiveSpriteContainer().getHitBoxes().size(); hbIndex++) {
+					HitBox hitBox = mob.getActiveSpriteContainer().getHitBoxes().get(hbIndex);
 					g.setColor(Color.YELLOW);
 					g.drawRect(hitBox.getxPos() - scene.getCameraPosition().getxPos(), hitBox.getyPos(), hitBox.getSizeX(), hitBox.getSizeY());
 				}
