@@ -1,5 +1,3 @@
-// Test 17.
-
 package platformer.game;
 
 import platformer.framework.AnimatedSprite;
