@@ -98,4 +98,7 @@ public abstract class Mob extends Node {
 			}
 		}
 	}
+	
+	public void collisionOccurred(Collision collision) {
+	}
 }

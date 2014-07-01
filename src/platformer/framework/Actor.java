@@ -52,10 +52,13 @@ public abstract class Actor extends Mob {
 	}
 
 	public void setJumping(boolean isJumping) {
-		if (velocity.getSpeedY() == 0 && isJumping) {
-			this.isJumping = true;	
-		} else {
+		if (isJumping && canJump) {
+			this.isJumping = true;
+			canJump = false;
+			jumpFrameCount = 0;
+		} else if (!isJumping) {
 			this.isJumping = false;
+			jumpFrameCount = 0;
 		}
 	}
 
@@ -79,18 +82,18 @@ public abstract class Actor extends Mob {
 		desiredPositionAdjusted = false;
 		
 		if (appliedForce.getForceX() >= 0) {
-			velocity.setSpeedX(Math.min(velocity.getSpeedX() + appliedForce.getForceX(), appliedForce.getForceX()));
+			velocity.setSpeedX(Math.min(velocity.getSpeedX() + .1f, appliedForce.getForceX()));
 		} else if (appliedForce.getForceX() < 0) {
-			velocity.setSpeedX(Math.max(velocity.getSpeedX() + appliedForce.getForceX(), appliedForce.getForceX()));
+			velocity.setSpeedX(Math.max(velocity.getSpeedX() - .1f, appliedForce.getForceX()));
 		}
 		
 		if (appliedForce.getForceY() >= 0) {
-			velocity.setSpeedY(Math.min(velocity.getSpeedY() + appliedForce.getForceY(), appliedForce.getForceY()));
+			velocity.setSpeedY(Math.min(velocity.getSpeedY() + .5f, appliedForce.getForceY()));
 		} else {
-			velocity.setSpeedY(Math.max(velocity.getSpeedY() + appliedForce.getForceY(), appliedForce.getForceY()));
+			velocity.setSpeedY(Math.max(velocity.getSpeedY() - .5f, appliedForce.getForceY()));
 		}
 
-		velocity.setSpeedY(Math.max(velocity.getSpeedY(), appliedForce.getForceY()));		
+		//velocity.setSpeedY(Math.max(velocity.getSpeedY(), appliedForce.getForceY()));		
 		
 		appliedForce.setForce(0, 0);
 				
@@ -102,6 +105,21 @@ public abstract class Actor extends Mob {
 		}
 		
 		super.update(elapsedTime);
+	}
+
+	@Override
+	public void collisionOccurred(Collision collision) {
+		switch (collision.collisionType) {
+		case LOWER:
+		case DIAGLOWERLEFT:
+		case DIAGLOWERRIGHT:
+			if (collision.collisionNode.isStopsMovement() && !isJumping) {
+				canJump = true;
+			}
+			break;
+		default:
+			break;
+		}
 	}
 	
 	

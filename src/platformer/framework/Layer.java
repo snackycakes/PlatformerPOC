@@ -44,13 +44,12 @@ public class Layer {
 		ArrayList<Collision> tileCollisions = checkTileCollisions(mob);
 		for (int colIndex = 0; colIndex < tileCollisions.size(); colIndex++) {
 			Collision tileCollision = tileCollisions.get(colIndex);
-			
+			mob.collisionOccurred(tileCollision);
 			switch (tileCollision.getCollisionType()) {
 				case LOWER:
 				case DIAGLOWERLEFT:
 				case DIAGLOWERRIGHT:
 					if (tileCollision.getCollisionNode().isStopsMovement()) {
-						mob.setVelocityY(0);
 						mob.setDesiredPositionY(mob.getDesiredPositionY() - ((tileCollision.getActiveHitBox().getyPos() + tileCollision.getActiveHitBox().getSizeY()) - tileCollision.getCollisionHitBox().getyPos()));
 					}
 					break;
