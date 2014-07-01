@@ -1,4 +1,4 @@
-// Test comment, test 5.
+// Test 5.
 
 package platformer.game;
 
