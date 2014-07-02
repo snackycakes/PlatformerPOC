@@ -94,9 +94,9 @@ public abstract class Actor extends Mob {
 		desiredPositionAdjusted = false;
 		
 		if (appliedForce.getForceX() >= 0) {
-			velocity.setSpeedX(Math.min(velocity.getSpeedX() + .1f, appliedForce.getForceX()));
+			velocity.setSpeedX(Math.min(velocity.getSpeedX() + .3f, appliedForce.getForceX()));
 		} else if (appliedForce.getForceX() < 0) {
-			velocity.setSpeedX(Math.max(velocity.getSpeedX() - .1f, appliedForce.getForceX()));
+			velocity.setSpeedX(Math.max(velocity.getSpeedX() - .3f, appliedForce.getForceX()));
 		}
 		
 		if (appliedForce.getForceY() >= 0) {
