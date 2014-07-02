@@ -19,6 +19,10 @@ public class Assets {
 		public static Sprite SmallMarioWalkingLeft1;
 		public static Sprite SmallMarioWalkingLeft2;
 		public static Sprite SmallMarioWalkingLeft3;
+		public static Sprite SmallMarioSlidingRight;
+		public static Sprite SmallMarioSlidingLeft;
+		public static Sprite SmallMarioJumpingRight;
+		public static Sprite SmallMarioJumpingLeft;
 		
 		// Tile Sprites
 		public static Sprite TileBrownFloor;

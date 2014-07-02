@@ -36,7 +36,7 @@ public class MarioGame extends Game {
 		
 		actionLayer = new Layer();
 		actionLayer.setDepth(0);
-		actionLayer.setGravity(2f);
+		actionLayer.setGravity(4f);
 		actionLayer.setTileSize(new Size(Assets.TILESIZE, Assets.TILESIZE));
 		actionLayer.addMob(playerMario);
 		MarioTileLoader.LoadTilesFromFile(actionLayer);	
@@ -53,6 +53,7 @@ public class MarioGame extends Game {
 	public void render(Graphics g, ImageObserver observer) {
 		boolean displayHitBoxes = false;
 		boolean displayTileGrid = false;
+		boolean displayPawnPosition = true;
 		
 		// TODO:  Only render what is in view
 		for (int xIndex = 0; xIndex < Assets.MAXLAYERWIDTH; xIndex++) {
@@ -93,6 +94,12 @@ public class MarioGame extends Game {
 				}
 			}
 		}
+		
+		if (displayPawnPosition) {
+			g.setColor(new Color(200, 0, 0));
+			//g.drawString(playerMario.getPositionX()+ ", " + playerMario.getPositionY(), 5, 10);
+			g.drawString("Velocity: " + Float.toString(playerMario.getVelocity().getSpeedX()), 5, 10);
+		}
 	}
 	
 	public void LoadAssets() {
@@ -109,11 +116,13 @@ public class MarioGame extends Game {
 		Assets.Sprites.SmallMarioStandingRight = marioSheet.getSprite(210, 0, 16, 16);
 		Assets.Sprites.SmallMarioWalkingRight1 = marioSheet.getSprite(239, 0, 16, 16);
 		Assets.Sprites.SmallMarioWalkingRight2 = marioSheet.getSprite(268, 0, 16, 16);
-		Assets.Sprites.SmallMarioWalkingRight3 = marioSheet.getSprite(299, 0, 16, 16);		
+		Assets.Sprites.SmallMarioWalkingRight3 = marioSheet.getSprite(299, 0, 16, 16);	
+		Assets.Sprites.SmallMarioSlidingRight = marioSheet.getSprite(59, 0, 16, 16);
 		Assets.Sprites.SmallMarioStandingLeft = marioSheet.getSprite(180, 0, 16, 16);
 		Assets.Sprites.SmallMarioWalkingLeft1 = marioSheet.getSprite(149, 0, 16, 16);
 		Assets.Sprites.SmallMarioWalkingLeft2 = marioSheet.getSprite(120, 0, 16, 16);
 		Assets.Sprites.SmallMarioWalkingLeft3 = marioSheet.getSprite(89, 0, 16, 16);
+		Assets.Sprites.SmallMarioSlidingLeft = marioSheet.getSprite(330, 0, 16, 16);
 		
 		marioSheet = null;
 		

@@ -10,7 +10,7 @@ public class Layer {
 	protected ArrayList<Mob> mobs = new ArrayList<Mob>();
 	protected Tile tiles[][] = new Tile[200][200];
 	protected Size tileSize = new Size(0, 0);
-	protected float gravity = 2f;
+	protected float gravity = 4f;
 	protected float friction = 0.2f;
 	
 	public void update(long elapsedTime) {			
