@@ -33,7 +33,7 @@ public abstract class Actor extends Mob {
 		super(xPos, yPos);
 	}
 
-	public Actor(Position position) {
+	public Actor(OrderedPair position) {
 		super(position);
 	}
 
@@ -94,23 +94,23 @@ public abstract class Actor extends Mob {
 		desiredPositionAdjusted = false;
 		
 		if (appliedForce.getForceX() >= 0) {
-			velocity.setSpeedX(Math.min(velocity.getSpeedX() + .3f, appliedForce.getForceX()));
+			velocity.setValueX(Math.min(velocity.getValueX() + 1.3f, appliedForce.getForceX()));
 		} else if (appliedForce.getForceX() < 0) {
-			velocity.setSpeedX(Math.max(velocity.getSpeedX() - .3f, appliedForce.getForceX()));
+			velocity.setValueX(Math.max(velocity.getValueX() - 1.3f, appliedForce.getForceX()));
 		}
 		
 		if (appliedForce.getForceY() >= 0) {
-			velocity.setSpeedY(Math.min(velocity.getSpeedY() + accelerationDown, appliedForce.getForceY()));
+			velocity.setValueY(Math.min(velocity.getValueY() + accelerationDown, appliedForce.getForceY()));
 		} else {
-			velocity.setSpeedY(Math.max(velocity.getSpeedY() + accelerationUp, appliedForce.getForceY()));
+			velocity.setValueY(Math.max(velocity.getValueY() + accelerationUp, appliedForce.getForceY()));
 		}
 
-		//velocity.setSpeedY(Math.max(velocity.getSpeedY(), appliedForce.getForceY()));		
+		//velocity.setValueY(Math.max(velocity.getValueY(), appliedForce.getForceY()));		
 		
 		appliedForce.setForce(0, 0);
 				
 		this.desiredPosition.copy(position);		
-		this.desiredPosition.addVelocity(velocity);
+		this.desiredPosition.add(velocity);
 		
 		if (activeSpriteContainer != null) {
 			activeSpriteContainer.update(elapsedTime, desiredPosition);

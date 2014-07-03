@@ -14,9 +14,9 @@ import platformer.framework.Game;
 import platformer.framework.HitBox;
 import platformer.framework.Layer;
 import platformer.framework.Mob;
+import platformer.framework.OrderedPair;
 import platformer.framework.Pawn;
 import platformer.framework.Scene;
-import platformer.framework.Size;
 import platformer.framework.SpriteSheet;
 import platformer.framework.Tile;
 
@@ -37,7 +37,7 @@ public class MarioGame extends Game {
 		actionLayer = new Layer();
 		actionLayer.setDepth(0);
 		actionLayer.setGravity(4f);
-		actionLayer.setTileSize(new Size(Assets.TILESIZE, Assets.TILESIZE));
+		actionLayer.setTileSize(new OrderedPair(Assets.TILESIZE, Assets.TILESIZE));
 		actionLayer.addMob(playerMario);
 		MarioTileLoader.LoadTilesFromFile(actionLayer);	
 		
@@ -61,19 +61,19 @@ public class MarioGame extends Game {
 				// Test code to display tile grid
 				if (displayTileGrid) {
 					g.setColor(Color.YELLOW);
-					g.drawRect((xIndex * Assets.TILESIZE) - scene.getCameraPosition().getxPos(), yIndex * Assets.TILESIZE, Assets.TILESIZE, Assets.TILESIZE);	
+					g.drawRect((xIndex * Assets.TILESIZE) - scene.getCameraPosition().getPosX(), yIndex * Assets.TILESIZE, Assets.TILESIZE, Assets.TILESIZE);	
 				}
 				
 				Tile tile = actionLayer.getTile(xIndex, yIndex);
 				if (tile != null) {
-					g.drawImage(tile.getActiveSprite().getSpriteImage(), (xIndex * Assets.TILESIZE) - scene.getCameraPosition().getxPos(), yIndex * Assets.TILESIZE, observer);
+					g.drawImage(tile.getActiveSprite().getSpriteImage(), (xIndex * Assets.TILESIZE) - scene.getCameraPosition().getPosX(), yIndex * Assets.TILESIZE, observer);
 					
 					// Test code to display hit boxes
 					if (displayHitBoxes) {
 						for (int hbIndex = 0; hbIndex < tile.getActiveSpriteContainer().getHitBoxes().size(); hbIndex++) {
 							HitBox hitBox = tile.getActiveSpriteContainer().getHitBoxes().get(hbIndex);
 							g.setColor(Color.YELLOW);
-							g.drawRect(hitBox.getxPos() - scene.getCameraPosition().getxPos(), hitBox.getyPos(), hitBox.getSizeX(), hitBox.getSizeY());
+							g.drawRect(hitBox.getPosX() - scene.getCameraPosition().getPosX(), hitBox.getPosY(), hitBox.getSizeX(), hitBox.getSizeY());
 						}
 					}
 
@@ -83,14 +83,14 @@ public class MarioGame extends Game {
 		
 		for (int index = 0; index < actionLayer.getMobs().size(); index++) {
 			Mob mob = actionLayer.getMobs().get(index);
-			g.drawImage(mob.getActiveSprite().getSpriteImage(), playerMario.getPositionX() - scene.getCameraPosition().getxPos(), playerMario.getPositionY(), observer);
+			g.drawImage(mob.getActiveSprite().getSpriteImage(), playerMario.getPositionX() - scene.getCameraPosition().getPosX(), playerMario.getPositionY(), observer);
 			
 			// Test code to display hit boxes
 			if (displayHitBoxes) {
 				for (int hbIndex = 0; hbIndex < mob.getActiveSpriteContainer().getHitBoxes().size(); hbIndex++) {
 					HitBox hitBox = mob.getActiveSpriteContainer().getHitBoxes().get(hbIndex);
 					g.setColor(Color.YELLOW);
-					g.drawRect(hitBox.getxPos() - scene.getCameraPosition().getxPos(), hitBox.getyPos(), hitBox.getSizeX(), hitBox.getSizeY());
+					g.drawRect(hitBox.getPosX() - scene.getCameraPosition().getPosX(), hitBox.getPosY(), hitBox.getSizeX(), hitBox.getSizeY());
 				}
 			}
 		}
@@ -98,7 +98,7 @@ public class MarioGame extends Game {
 		if (displayPawnPosition) {
 			g.setColor(new Color(200, 0, 0));
 			//g.drawString(playerMario.getPositionX()+ ", " + playerMario.getPositionY(), 5, 10);
-			g.drawString("Velocity: " + Float.toString(playerMario.getVelocity().getSpeedX()), 5, 10);
+			g.drawString("Velocity: " + Float.toString(playerMario.getVelocity().getValueX()), 5, 10);
 		}
 	}
 	

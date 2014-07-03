@@ -7,11 +7,11 @@ public abstract class SpriteContainer {
 	
 	public abstract Sprite getSprite();
 	
-	public void update(long elapsedTime, Position parentPosition) {
+	public void update(long elapsedTime, OrderedPair parentPosition) {
 		updateHitBoxes(parentPosition);
 	}
 	
-	public void updateHitBoxes(Position parentPosition) {
+	public void updateHitBoxes(OrderedPair parentPosition) {
 		for (int index = 0; index < hitBoxes.size(); index++) {
 			HitBox hitBox = hitBoxes.get(index);
 			if (hitBox != null) {

@@ -1,7 +1,7 @@
 package platformer.framework;
 
 public abstract class Node {
-	protected Position position;
+	protected OrderedPair position;
 	protected SpriteContainer activeSpriteContainer;
 	protected boolean stopsMovement = true;
 	
@@ -22,24 +22,24 @@ public abstract class Node {
 	}
 	
 	public Node() {
-		position = new Position();
+		position = new OrderedPair();
 	}
 	
-	public Node(Position position) {
+	public Node(OrderedPair position) {
 		this.position = position;
 	}
 	
 	public Node(int xPos, int yPos) {
-		this.position = new Position(xPos, yPos);
+		this.position = new OrderedPair(xPos, yPos);
 	}
 	
 	public void update(long elapsedTime) {}
 
-	public Position getPosition() {
+	public OrderedPair getPosition() {
 		return position;
 	}
 
-	public void setPosition(Position position) {
+	public void setPosition(OrderedPair position) {
 		this.position = position;
 	}
 	
@@ -48,19 +48,19 @@ public abstract class Node {
 	}
 	
 	public int getPositionX() {
-		return this.position.getxPos();
+		return this.position.getPosX();
 	}
 	
 	public int getPositionY() {
-		return this.position.getyPos();
+		return this.position.getPosY();
 	}
 	
 	public float getCoordX() {
-		return this.position.getxCoord();
+		return this.position.getValueX();
 	}
 	
 	public float getCoordY() {
-		return this.position.getyCoord();
+		return this.position.getValueY();
 	}
 	
 	public boolean isStopsMovement() {

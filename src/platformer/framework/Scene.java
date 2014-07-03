@@ -3,7 +3,7 @@ package platformer.framework;
 import java.util.ArrayList;
 
 public class Scene {
-	protected Position cameraPosition = new Position(0, 0);
+	protected OrderedPair cameraPosition = new OrderedPair(0, 0);
 	protected ArrayList<Layer> layers = new ArrayList<Layer>();
 	protected final int VIEWABLEWIDTH = 256;
 	protected final int CAMERASCROLLX = 128;
@@ -18,9 +18,9 @@ public class Scene {
 	
 	public void adjustCamera(long elapsedTime) {
 		// this code is temporary, shouldn't assume pawn will be at these indexes. 
-		int pawnOffset = pawn.getPositionX() - cameraPosition.getxPos();
-		if (pawn.getPositionX() - cameraPosition.getxPos() > CAMERASCROLLX) {
-			cameraPosition.addToPositionX(pawnOffset - CAMERASCROLLX);
+		int pawnOffset = pawn.getPositionX() - cameraPosition.getPosX();
+		if (pawn.getPositionX() - cameraPosition.getPosX() > CAMERASCROLLX) {
+			cameraPosition.addToValueX(pawnOffset - CAMERASCROLLX);
 		}
 	}
 
@@ -28,11 +28,11 @@ public class Scene {
 		return layers;
 	}
 	
-	public Position getCameraPosition() {
+	public OrderedPair getCameraPosition() {
 		return cameraPosition;
 	}
 
-	public void setCameraPosition(Position cameraPosition) {
+	public void setCameraPosition(OrderedPair cameraPosition) {
 		this.cameraPosition = cameraPosition;
 	}
 

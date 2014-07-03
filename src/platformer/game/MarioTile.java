@@ -1,7 +1,7 @@
 package platformer.game;
 
 import platformer.framework.HitBox;
-import platformer.framework.Position;
+import platformer.framework.OrderedPair;
 import platformer.framework.Sprite;
 import platformer.framework.SpriteContainer;
 import platformer.framework.Tile;
@@ -9,7 +9,7 @@ import platformer.framework.Tile;
 public class MarioTile extends Tile {
 
 	protected void init() {
-		this.activeSpriteContainer.addHitBox(new HitBox(position, new Position(0,0), Assets.TILESIZE, Assets.TILESIZE));
+		this.activeSpriteContainer.addHitBox(new HitBox(position, new OrderedPair(0,0), Assets.TILESIZE, Assets.TILESIZE));
 	}
 
 	public MarioTile(SpriteContainer activeSpriteContainer) {
@@ -17,7 +17,7 @@ public class MarioTile extends Tile {
 		init();
 	}
 
-	public MarioTile(SpriteContainer activeSpriteContainer, Position position) {
+	public MarioTile(SpriteContainer activeSpriteContainer, OrderedPair position) {
 		super(activeSpriteContainer, position);
 		init();
 	}
@@ -32,7 +32,7 @@ public class MarioTile extends Tile {
 		init();
 	}
 
-	public MarioTile(Sprite activeSprite, Position position) {
+	public MarioTile(Sprite activeSprite, OrderedPair position) {
 		super(activeSprite, position);
 		init();
 	}

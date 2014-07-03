@@ -11,7 +11,7 @@ public class Pawn extends Actor {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Pawn(Position position) {
+	public Pawn(OrderedPair position) {
 		super(position);
 		// TODO Auto-generated constructor stub
 	}

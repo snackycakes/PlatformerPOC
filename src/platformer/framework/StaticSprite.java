@@ -5,12 +5,12 @@ import java.awt.Image;
 public class StaticSprite extends SpriteContainer {
 	private Sprite sprite;
 	
-	public StaticSprite(Sprite sprite, Position parentPosition) {
+	public StaticSprite(Sprite sprite, OrderedPair parentPosition) {
 		super();
 		this.sprite = sprite;
 	}
 
-	public StaticSprite(Image spriteImage, Position parentPosition) {
+	public StaticSprite(Image spriteImage, OrderedPair parentPosition) {
 		super();
 		sprite.setSpriteImage(spriteImage);
 	}
@@ -21,7 +21,7 @@ public class StaticSprite extends SpriteContainer {
 	}
 
 	@Override
-	public void update(long elapsedTime, Position parentPosition) {
+	public void update(long elapsedTime, OrderedPair parentPosition) {
 		super.update(elapsedTime, parentPosition);
 	}
 

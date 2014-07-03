@@ -3,20 +3,20 @@ package platformer.framework;
 import java.awt.Rectangle;
 
 public class HitBox {
-	protected Position position = new Position();
+	protected OrderedPair position = new OrderedPair();
 	protected Rectangle boundingBox;
-	protected Position boxOffset = new Position();
+	protected OrderedPair boxOffset = new OrderedPair();
 	protected int sizeX, sizeY;
 	
 	private void init() {		
-		this.boundingBox = new Rectangle(this.position.getxPos(), this.position.getyPos(), this.sizeX, this.sizeY);
+		this.boundingBox = new Rectangle(this.position.getPosX(), this.position.getPosY(), this.sizeX, this.sizeY);
 	}
 	
-	public Position getBoxOffset() {
+	public OrderedPair getBoxOffset() {
 		return boxOffset;
 	}
 
-	public HitBox(Position parentPosition, Position boxOffset, int sizeX, int sizeY) {
+	public HitBox(OrderedPair parentPosition, OrderedPair boxOffset, int sizeX, int sizeY) {
 		this.boxOffset = boxOffset;
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
@@ -24,9 +24,9 @@ public class HitBox {
 		init();
 	}
 	
-	public void updatePosition(Position parentPosition)
+	public void updatePosition(OrderedPair parentPosition)
 	{
-		this.position.setPosition(parentPosition.getxCoord() + this.boxOffset.getxCoord(), parentPosition.getyCoord() + this.boxOffset.getyCoord());
+		this.position.setPosition(parentPosition.getValueX() + this.boxOffset.getValueX(), parentPosition.getValueY() + this.boxOffset.getValueY());
 	}
 
 	public boolean checkCollision(HitBox hitBox) {
@@ -35,14 +35,14 @@ public class HitBox {
 		return returnValue;
 	}
 
-	public void update(Position parentPosition) {
+	public void update(OrderedPair parentPosition) {
 		this.updatePosition(parentPosition);
-		this.boundingBox.setLocation(this.position.getxPos(), this.position.getyPos());
+		this.boundingBox.setLocation(this.position.getPosX(), this.position.getPosY());
 	}
 	
-	public void align(Position parentPosition) {
+	public void align(OrderedPair parentPosition) {
 		this.updatePosition(parentPosition);
-		this.boundingBox.setLocation(this.position.getxPos(), this.position.getyPos());
+		this.boundingBox.setLocation(this.position.getPosX(), this.position.getPosY());
 	}
 	
 	public int getSizeX() {
@@ -53,15 +53,15 @@ public class HitBox {
 		return sizeY;
 	}
 	
-	public Position getPosition() {
+	public OrderedPair getPosition() {
 		return position;
 	}
 
-	public int getxPos () {
-		return position.getxPos();
+	public int getPosX () {
+		return position.getPosX();
 	}
 	
-	public int getyPos () {
-		return position.getyPos();
+	public int getPosY () {
+		return position.getPosY();
 	}
 }

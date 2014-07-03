@@ -3,15 +3,15 @@ package platformer.framework;
 import java.util.ArrayList;
 
 public abstract class Mob extends Node {
-	protected Position desiredPosition;
-	protected Velocity velocity;
+	protected OrderedPair desiredPosition;
+	protected OrderedPair velocity;
 	protected Force appliedForce;
 	protected boolean desiredPositionAdjusted = false;
 		
 	protected void init() {
 		appliedForce = new Force(0, 0);
-		velocity = new Velocity();
-		desiredPosition = new Position();
+		velocity = new OrderedPair();
+		desiredPosition = new OrderedPair();
 		desiredPosition.copy(position);
 	}
 
@@ -25,7 +25,7 @@ public abstract class Mob extends Node {
 		init();
 	}
 
-	public Mob(Position position) {
+	public Mob(OrderedPair position) {
 		super(position);
 		init();
 	}
@@ -42,52 +42,52 @@ public abstract class Mob extends Node {
 		appliedForce.addValue(new Force(forceX, forceY));
 	}
 	
-	public Position getDesiredPosition() {
+	public OrderedPair getDesiredPosition() {
 		return desiredPosition;
 	}
 
-	public void setDesiredPosition(Position desiredPosition) {
+	public void setDesiredPosition(OrderedPair desiredPosition) {
 		desiredPositionAdjusted = true;
 		this.desiredPosition = desiredPosition;
 	}
 	
 	public int getDesiredPositionX() {
-		return desiredPosition.getxPos();
+		return desiredPosition.getPosX();
 	}
 	
 	public void setDesiredPositionX(int xPos) {
 		desiredPositionAdjusted = true;
-		this.desiredPosition.setxPos(xPos);
+		this.desiredPosition.setPosX(xPos);
 	}
 	
 	public int getDesiredPositionY() {
-		return desiredPosition.getyPos();
+		return desiredPosition.getPosY();
 	}
 	
 	public void setDesiredPositionY(int yPos) {
 		desiredPositionAdjusted = true;
-		this.desiredPosition.setyPos(yPos);
+		this.desiredPosition.setPosY(yPos);
 	}
 
-	public Velocity getVelocity() {
+	public OrderedPair getVelocity() {
 		return velocity;
 	}
 
-	public void setVelocity(Velocity velocity) {
+	public void setVelocity(OrderedPair velocity) {
 		this.velocity = velocity;
 	}
 	
 	public void setVelocity(float speedX, float speedY) {
-		this.velocity.setSpeedX(speedX);
-		this.velocity.setSpeedY(speedY);
+		this.velocity.setValueX(speedX);
+		this.velocity.setValueY(speedY);
 	}
 	
 	public void setVelocityX(float speedX) {
-		this.velocity.setSpeedX(speedX);
+		this.velocity.setValueX(speedX);
 	}
 	
 	public void setVelocityY(float speedY) {
-		this.velocity.setSpeedY(speedY);
+		this.velocity.setValueY(speedY);
 	}
 	
 	public void commitDesiredPosition() {

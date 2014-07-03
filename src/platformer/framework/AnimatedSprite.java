@@ -11,7 +11,7 @@ public class AnimatedSprite extends SpriteContainer {
 							// more accurate numbers.
 	private long totalDuration;
 
-	public AnimatedSprite(Position parentPosition) {
+	public AnimatedSprite(OrderedPair parentPosition) {
 		frames = new ArrayList<AnimFrame>();
 		totalDuration = 0;
 
@@ -27,7 +27,7 @@ public class AnimatedSprite extends SpriteContainer {
 	}
 
 	@Override
-	public synchronized void update(long elapsedTime, Position parentPosition)  {
+	public synchronized void update(long elapsedTime, OrderedPair parentPosition)  {
 		super.update(elapsedTime, parentPosition);
 		
 		if (frames.size() > 1) {
