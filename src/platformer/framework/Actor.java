@@ -11,14 +11,13 @@ public abstract class Actor extends Mob {
 	protected SpriteContainer slidingRight;
 	protected SpriteContainer slidingLeft;
 	
-	protected float movementForce = 2;
-	protected float jumpForce = -9;
-	protected float jumpFrameCount = 0;
-	protected float jumpInitialForce = -5;
-	protected float jumpAcceleration = -.8f;
-	protected float accelerationUp = -.8f;
-	protected float accelerationDown = .3f;
-	protected float jumpMaxFrames = 10;
+	protected float movementForce = 2f;
+	protected float movementAccl = .5f;
+	protected float jumpForce = -9f;
+	protected float jumpFrameCount = 0f;
+	protected float jumpInitialForce = -5f;
+	protected float jumpAcceleration = -9f;
+	protected float jumpMaxFrames = 10f;
 	
 	protected boolean canJump = false;
 	protected boolean isMovingRight = false;
@@ -71,43 +70,51 @@ public abstract class Actor extends Mob {
 	@Override
 	public void update(long elapsedTime) {
 		if (isMovingRight) {
-			applyForce(movementForce, 0);
+			applyForce("movement", 0, 0, movementForce, 0, movementAccl, 0);
 		}
 		if (isMovingLeft) {
-			applyForce(-movementForce, 0);
+			applyForce("movement", 0, 0, -movementForce, 0, -movementAccl, 0);
 		}
 		if (isJumping) {
-			applyForce(0, jumpForce);
+			applyForce("jump", 0, 0, 0, jumpForce, 0, jumpAcceleration);
 			jumpFrameCount++;
 			if (jumpFrameCount >= jumpMaxFrames) {
 				isJumping = false;
 				jumpFrameCount = 0;			
 			}
 			
+			/*
 			if (jumpFrameCount == 1) {
 				accelerationUp = jumpInitialForce;
 			} else {
 				accelerationUp = jumpAcceleration;
 			}
+			*/
 		}
 		
-		desiredPositionAdjusted = false;
+		OrderedPair maxVelocity = new OrderedPair (0, 0);
+		OrderedPair minVelocity = new OrderedPair (0, 0);
 		
-		if (appliedForce.getForceX() >= 0) {
-			velocity.setValueX(Math.min(velocity.getValueX() + 1.3f, appliedForce.getForceX()));
-		} else if (appliedForce.getForceX() < 0) {
-			velocity.setValueX(Math.max(velocity.getValueX() - 1.3f, appliedForce.getForceX()));
+		for (Force force : appliedForces.values()) {
+			maxVelocity.setValueX(Math.max(force.getMaxVelocityX(), maxVelocity.getValueX()));
+			maxVelocity.setValueY(Math.max(force.getMaxVelocityY(), maxVelocity.getValueY()));
+			minVelocity.setValueX(Math.min(force.getMaxVelocityX(), minVelocity.getValueX()));
+			minVelocity.setValueY(Math.min(force.getMaxVelocityY(), minVelocity.getValueY()));
+			
+			if (force.getMaxVelocityX() >= 0) {
+				velocity.setValueX(Math.min(velocity.getValueX() + force.getAccelerationX(), maxVelocity.getValueX()));
+			} else if (force.getMaxVelocityX() < 0) {
+				velocity.setValueX(Math.max(velocity.getValueX() + force.getAccelerationX(), minVelocity.getValueX()));
+			}
+			
+			if (force.getMaxVelocityY() >= 0) {
+				velocity.setValueY(Math.min(velocity.getValueY() + force.getAccelerationY(), maxVelocity.getValueY()));
+			} else {
+				velocity.setValueY(Math.max(velocity.getValueY() + force.getAccelerationY(), minVelocity.getValueY()));
+			}	
 		}
 		
-		if (appliedForce.getForceY() >= 0) {
-			velocity.setValueY(Math.min(velocity.getValueY() + accelerationDown, appliedForce.getForceY()));
-		} else {
-			velocity.setValueY(Math.max(velocity.getValueY() + accelerationUp, appliedForce.getForceY()));
-		}
-
-		//velocity.setValueY(Math.max(velocity.getValueY(), appliedForce.getForceY()));		
-		
-		appliedForce.setForce(0, 0);
+		appliedForces.clear();
 				
 		this.desiredPosition.copy(position);		
 		this.desiredPosition.add(velocity);

@@ -1,18 +1,19 @@
 package platformer.framework;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class Mob extends Node {
 	protected OrderedPair desiredPosition;
 	protected OrderedPair velocity;
-	protected Force appliedForce;
 	protected boolean desiredPositionAdjusted = false;
+	protected HashMap<String, Force> appliedForces;
+	
 		
 	protected void init() {
-		appliedForce = new Force(0, 0);
 		velocity = new OrderedPair();
 		desiredPosition = new OrderedPair();
 		desiredPosition.copy(position);
+		appliedForces = new HashMap<String, Force>();
 	}
 
 	public Mob() {
@@ -34,12 +35,12 @@ public abstract class Mob extends Node {
 	public void update(long elapsedTime) {
 	}
 	
-	public void applyForce(Force force) {
-		appliedForce.addValue(force);
+	public void applyForce(String forceName, Force force) {
+		appliedForces.put(forceName, force);
 	}
 	
-	public void applyForce(float forceX, float forceY) {
-		appliedForce.addValue(new Force(forceX, forceY));
+	public void applyForce(String forceName, float intVelocityX, float initVelocityY, float maxVelocityX, float maxVelocityY, float acclX, float acclY) {
+		appliedForces.put(forceName, new Force(intVelocityX, initVelocityY, maxVelocityX, maxVelocityY, acclX, acclY));
 	}
 	
 	public OrderedPair getDesiredPosition() {

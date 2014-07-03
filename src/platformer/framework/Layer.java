@@ -11,6 +11,7 @@ public class Layer {
 	protected Tile tiles[][] = new Tile[200][200];
 	protected OrderedPair tileSize = new OrderedPair(0, 0);
 	protected float gravity = 4f;
+	protected float gravityAccl = 0.8f;
 	protected float friction = 0.1f;
 	
 	public void update(long elapsedTime) {			
@@ -21,19 +22,19 @@ public class Layer {
 	
 	public void updateMob(Mob mob, long elapsedTime) {
 		// gravity logic
-		mob.applyForce(0, gravity);
+		mob.applyForce("gravity", new Force(0, 0, 0, gravity, 0, gravityAccl));
 		
 		//friction logic
 		if (mob.getVelocity().getValueX() >= 0f) {
 			if (mob.getVelocity().getValueX() - friction >= 0f) {
-				mob.applyForce(-friction, 0f);
+				mob.applyForce("friction", new Force(0, 0, -friction, 0, -friction, 0));
 			} else {
 				//mob.applyForce(-mob.getVelocity().getValueX(), 0f);
 				mob.getVelocity().setValueX(0f);
 			}
 		} else{
 			if (mob.getVelocity().getValueX() + friction <= 0f) {
-				mob.applyForce(friction, 0f);
+				mob.applyForce("friction", new Force(0, 0, friction, 0, friction, 0));
 			} else {
 				//mob.applyForce(-mob.getVelocity().getValueX(), 0f);
 				mob.getVelocity().setValueX(0f);
