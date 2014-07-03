@@ -98,7 +98,8 @@ public class MarioGame extends Game {
 		if (displayPawnPosition) {
 			g.setColor(new Color(200, 0, 0));
 			//g.drawString(playerMario.getPositionX()+ ", " + playerMario.getPositionY(), 5, 10);
-			g.drawString("Velocity: " + Float.toString(playerMario.getVelocity().getValueX()), 5, 10);
+			g.drawString("VelocityX: " + Float.toString(playerMario.getVelocity().getValueX()), 5, 10);
+			g.drawString("PositionY: " + Float.toString(playerMario.getPositionY()), 150, 10);
 		}
 	}
 	

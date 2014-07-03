@@ -12,11 +12,11 @@ public abstract class Actor extends Mob {
 	protected SpriteContainer slidingLeft;
 	
 	protected float movementForce = 2f;
-	protected float movementAccl = .5f;
-	protected float jumpForce = -9f;
+	protected float movementAccl = .12f;
+	protected float jumpForce = -8f;
 	protected float jumpFrameCount = 0f;
 	protected float jumpInitialForce = -5f;
-	protected float jumpAcceleration = -9f;
+	protected float jumpAcceleration = -3f;
 	protected float jumpMaxFrames = 10f;
 	
 	protected boolean canJump = false;
@@ -100,16 +100,18 @@ public abstract class Actor extends Mob {
 			maxVelocity.setValueY(Math.max(force.getMaxVelocityY(), maxVelocity.getValueY()));
 			minVelocity.setValueX(Math.min(force.getMaxVelocityX(), minVelocity.getValueX()));
 			minVelocity.setValueY(Math.min(force.getMaxVelocityY(), minVelocity.getValueY()));
-			
-			if (force.getMaxVelocityX() >= 0) {
+		}
+		
+		for (Force force : appliedForces.values()) {
+			if (force.getMaxVelocityX() > 0) {
 				velocity.setValueX(Math.min(velocity.getValueX() + force.getAccelerationX(), maxVelocity.getValueX()));
 			} else if (force.getMaxVelocityX() < 0) {
 				velocity.setValueX(Math.max(velocity.getValueX() + force.getAccelerationX(), minVelocity.getValueX()));
 			}
 			
-			if (force.getMaxVelocityY() >= 0) {
+			if (force.getMaxVelocityY() > 0) {
 				velocity.setValueY(Math.min(velocity.getValueY() + force.getAccelerationY(), maxVelocity.getValueY()));
-			} else {
+			} else if (force.getMaxVelocityY() < 0) {
 				velocity.setValueY(Math.max(velocity.getValueY() + force.getAccelerationY(), minVelocity.getValueY()));
 			}	
 		}

@@ -12,7 +12,7 @@ public class Layer {
 	protected OrderedPair tileSize = new OrderedPair(0, 0);
 	protected float gravity = 4f;
 	protected float gravityAccl = 0.8f;
-	protected float friction = 0.1f;
+	protected float friction = 0.05f;
 	
 	public void update(long elapsedTime) {			
 		for (int mobIndex = 0; mobIndex < mobs.size(); mobIndex++) {
