@@ -58,6 +58,14 @@ public class Mario extends Pawn {
 		marioStandingRight.addHitBox(new HitBox(position, new OrderedPair(0, 0), Assets.TILESIZE, Assets.TILESIZE));
 		standingRight = marioStandingRight;
 		
+		StaticSprite marioJumpingLeft = new StaticSprite(Assets.Sprites.SmallMarioJumpingLeft, position);
+		marioJumpingLeft.addHitBox(new HitBox(position, new OrderedPair(0, 0), Assets.TILESIZE, Assets.TILESIZE));
+		jumpingLeft = marioJumpingLeft;
+		
+		StaticSprite marioJumpingRight = new StaticSprite(Assets.Sprites.SmallMarioJumpingRight, position);
+		marioJumpingRight.addHitBox(new HitBox(position, new OrderedPair(0, 0), Assets.TILESIZE, Assets.TILESIZE));
+		jumpingRight = marioJumpingRight;
+		
 		activeSpriteContainer = movingRight;		
 	}
 
@@ -65,25 +73,36 @@ public class Mario extends Pawn {
 	public void update(long elapsedTime) {
 		super.update(elapsedTime);
 		
+		// isJumping is a very short duration, so jump sprite doesn't last long.
 		if (isMovingRight) {
 			isFacingRight = true;
-			
-			if (velocity.getValueX() < 0) {
-				activeSpriteContainer = slidingLeft;
-			} else {
-				activeSpriteContainer = movingRight;
+			if (!isJumping) {
+				if (velocity.getValueX() < 0) {
+					activeSpriteContainer = slidingLeft;
+				} else {
+					activeSpriteContainer = movingRight;
+				}
 			}
 		} else if (isMovingLeft) {
 			isFacingRight = false;
-			
-			if (velocity.getValueX() > 0) {
-				activeSpriteContainer = slidingRight;
-			} else {
-				activeSpriteContainer = movingLeft;	
+			if (!isJumping) {
+				if (velocity.getValueX() > 0) {
+					activeSpriteContainer = slidingRight;
+				} else {
+					activeSpriteContainer = movingLeft;	
+				}
 			}
 		}
 		
-		if (velocity.getValueX() == 0 && canJump) {
+		if (isJumping){
+			if (velocity.getValueX() > 0 || isFacingRight) {
+				activeSpriteContainer = jumpingRight;
+			} else if (velocity.getValueX() < 0 || !isFacingRight) {
+				activeSpriteContainer = jumpingLeft;
+			}
+		}
+		
+		if (velocity.getValueX() == 0 && !isJumping) {
 			if (isFacingRight) {
 				activeSpriteContainer = standingRight;
 			} else {

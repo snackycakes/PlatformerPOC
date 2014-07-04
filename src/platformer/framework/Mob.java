@@ -7,8 +7,8 @@ public abstract class Mob extends Node {
 	protected OrderedPair velocity;
 	protected boolean desiredPositionAdjusted = false;
 	protected HashMap<String, Force> appliedForces;
-	
-		
+	protected boolean grounded = false;	
+
 	protected void init() {
 		velocity = new OrderedPair();
 		desiredPosition = new OrderedPair();
@@ -40,7 +40,7 @@ public abstract class Mob extends Node {
 	}
 	
 	public void applyForce(String forceName, float intVelocityX, float initVelocityY, float maxVelocityX, float maxVelocityY, float acclX, float acclY) {
-		appliedForces.put(forceName, new Force(intVelocityX, initVelocityY, maxVelocityX, maxVelocityY, acclX, acclY));
+		appliedForces.put(forceName, new Force(maxVelocityX, maxVelocityY, acclX, acclY));
 	}
 	
 	public OrderedPair getDesiredPosition() {
@@ -91,6 +91,14 @@ public abstract class Mob extends Node {
 		this.velocity.setValueY(speedY);
 	}
 	
+	public boolean isGrounded() {
+		return grounded;
+	}
+
+	public void setGrounded(boolean grounded) {
+		this.grounded = grounded;
+	}
+	
 	public void commitDesiredPosition() {
 		this.position.copy(desiredPosition);
 		if (desiredPositionAdjusted) {
@@ -100,6 +108,6 @@ public abstract class Mob extends Node {
 		}
 	}
 	
-	public void collisionOccurred(Collision collision) {
+	public void collisionUpdate(Collision collision) {
 	}
 }

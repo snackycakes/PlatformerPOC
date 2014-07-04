@@ -13,13 +13,12 @@ public abstract class Actor extends Mob {
 	
 	protected float movementForce = 2f;
 	protected float movementAccl = .12f;
-	protected float jumpForce = -8f;
-	protected float jumpFrameCount = 0f;
-	protected float jumpInitialForce = -5f;
-	protected float jumpAcceleration = -3f;
+	protected float jumpForce = -7.1f;
+	protected float jumpInitialForce = -2.8f;
+	protected float jumpAcceleration = -1.1f;
 	protected float jumpMaxFrames = 10f;
+	protected float jumpFrameCount = 0f;
 	
-	protected boolean canJump = false;
 	protected boolean isMovingRight = false;
 	protected boolean isMovingLeft = false;
 	protected boolean isJumping = false;
@@ -57,9 +56,9 @@ public abstract class Actor extends Mob {
 	}
 
 	public void setJumping(boolean isJumping) {
-		if (isJumping && canJump) {
+		if (isJumping && grounded) {
 			this.isJumping = true;
-			canJump = false;
+			grounded = false;
 			jumpFrameCount = 0;
 		} else if (!isJumping) {
 			this.isJumping = false;
@@ -76,20 +75,16 @@ public abstract class Actor extends Mob {
 			applyForce("movement", 0, 0, -movementForce, 0, -movementAccl, 0);
 		}
 		if (isJumping) {
-			applyForce("jump", 0, 0, 0, jumpForce, 0, jumpAcceleration);
+			if (jumpFrameCount == 0) {
+				applyForce("jump", 0, 0, 0, jumpForce, 0, jumpInitialForce);
+			} else {
+				applyForce("jump", 0, 0, 0, jumpForce, 0, jumpAcceleration);
+			}
 			jumpFrameCount++;
 			if (jumpFrameCount >= jumpMaxFrames) {
 				isJumping = false;
 				jumpFrameCount = 0;			
 			}
-			
-			/*
-			if (jumpFrameCount == 1) {
-				accelerationUp = jumpInitialForce;
-			} else {
-				accelerationUp = jumpAcceleration;
-			}
-			*/
 		}
 		
 		OrderedPair maxVelocity = new OrderedPair (0, 0);
@@ -129,18 +124,94 @@ public abstract class Actor extends Mob {
 	}
 
 	@Override
-	public void collisionOccurred(Collision collision) {
-		switch (collision.collisionType) {
-		case LOWER:
-		case DIAGLOWERLEFT:
-		case DIAGLOWERRIGHT:
-			if (collision.collisionNode.isStopsMovement() && !isJumping) {
-				canJump = true;
-			}
-			break;
-		default:
-			break;
+	public void collisionUpdate(Collision collision) {
+		if (collision == null) {
+			grounded = false;
+		} else {
+			switch (collision.collisionType) {
+				case LOWER:
+				case DIAGLOWERLEFT:
+				case DIAGLOWERRIGHT:
+					if (collision.collisionNode.isStopsMovement() && !isJumping) {
+						grounded = true;
+					}
+					break;
+				default:
+					break;
+			}	
 		}
+	}
+
+	public SpriteContainer getJumpingLeft() {
+		return jumpingLeft;
+	}
+
+	public void setJumpingLeft(SpriteContainer jumpingLeft) {
+		this.jumpingLeft = jumpingLeft;
+	}
+
+	public SpriteContainer getJumpingRight() {
+		return jumpingRight;
+	}
+
+	public void setJumpingRight(SpriteContainer jumpingRight) {
+		this.jumpingRight = jumpingRight;
+	}
+
+	public float getMovementForce() {
+		return movementForce;
+	}
+
+	public void setMovementForce(float movementForce) {
+		this.movementForce = movementForce;
+	}
+
+	public float getMovementAccl() {
+		return movementAccl;
+	}
+
+	public void setMovementAccl(float movementAccl) {
+		this.movementAccl = movementAccl;
+	}
+
+	public float getJumpForce() {
+		return jumpForce;
+	}
+
+	public void setJumpForce(float jumpForce) {
+		this.jumpForce = jumpForce;
+	}
+
+	public float getJumpFrameCount() {
+		return jumpFrameCount;
+	}
+
+	public void setJumpFrameCount(float jumpFrameCount) {
+		this.jumpFrameCount = jumpFrameCount;
+	}
+
+	public float getJumpInitialForce() {
+		return jumpInitialForce;
+	}
+
+	public void setJumpInitialForce(float jumpInitialForce) {
+		this.jumpInitialForce = jumpInitialForce;
+	}
+
+	public float getJumpAcceleration() {
+		return jumpAcceleration;
+	}
+
+	public void setJumpAcceleration(float jumpAcceleration) {
+		this.jumpAcceleration = jumpAcceleration;
+	}
+
+	public float getJumpMaxFrames() {
+		return jumpMaxFrames;
+	}
+
+	public void setJumpMaxFrames(float jumpMaxFrames) {
+		this.jumpMaxFrames = jumpMaxFrames;
 	}
 	
 	

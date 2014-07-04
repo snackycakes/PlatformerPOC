@@ -11,33 +11,40 @@ public class Layer {
 	protected Tile tiles[][] = new Tile[200][200];
 	protected OrderedPair tileSize = new OrderedPair(0, 0);
 	protected float gravity = 4f;
-	protected float gravityAccl = 0.8f;
-	protected float friction = 0.05f;
+	protected float gravityAccl = 0.3f;
+	protected float frictionGround = 0.06f;
+	protected float frictionAir = 0.00f;
 	
 	public void update(long elapsedTime) {			
 		for (int mobIndex = 0; mobIndex < mobs.size(); mobIndex++) {
 			updateMob(mobs.get(mobIndex), elapsedTime);
 		}
 	}
-	
+
 	public void updateMob(Mob mob, long elapsedTime) {
 		// gravity logic
-		mob.applyForce("gravity", new Force(0, 0, 0, gravity, 0, gravityAccl));
+		mob.applyForce("gravity", new Force(0, gravity, 0, gravityAccl));
+		float friction = 0;
+		if (mob.isGrounded()) {
+			friction = frictionGround;
+		} else {
+			friction = frictionAir;
+		}
 		
 		//friction logic
 		if (mob.getVelocity().getValueX() >= 0f) {
 			if (mob.getVelocity().getValueX() - friction >= 0f) {
-				mob.applyForce("friction", new Force(0, 0, -friction, 0, -friction, 0));
+				mob.applyForce("friction", new Force(-friction, 0, -friction, 0));
 			} else {
-				//mob.applyForce(-mob.getVelocity().getValueX(), 0f);
-				mob.getVelocity().setValueX(0f);
+				mob.applyForce("friction", new Force(-mob.getVelocity().getValueX(), 0, -mob.getVelocity().getValueX(), 0));
+				//mob.getVelocity().setValueX(0f);
 			}
 		} else{
 			if (mob.getVelocity().getValueX() + friction <= 0f) {
-				mob.applyForce("friction", new Force(0, 0, friction, 0, friction, 0));
+				mob.applyForce("friction", new Force(friction, 0, friction, 0));
 			} else {
-				//mob.applyForce(-mob.getVelocity().getValueX(), 0f);
-				mob.getVelocity().setValueX(0f);
+				mob.applyForce("friction", new Force(-mob.getVelocity().getValueX(), 0, -mob.getVelocity().getValueX(), 0));
+				//mob.getVelocity().setValueX(0f);
 			}
 		}
 		
@@ -45,9 +52,14 @@ public class Layer {
 		
 		// check and respond to tile collisions
 		ArrayList<Collision> tileCollisions = checkTileCollisions(mob);
+		
+		if (tileCollisions.size() == 0) {
+			mob.collisionUpdate(null);
+		}
+		
 		for (int colIndex = 0; colIndex < tileCollisions.size(); colIndex++) {
 			Collision tileCollision = tileCollisions.get(colIndex);
-			mob.collisionOccurred(tileCollision);
+			mob.collisionUpdate(tileCollision);
 			switch (tileCollision.getCollisionType()) {
 				case LOWER:
 				case DIAGLOWERLEFT:
@@ -81,6 +93,22 @@ public class Layer {
 		mob.commitDesiredPosition();
 	}
 	
+	public float getFrictionGround() {
+		return frictionGround;
+	}
+
+	public void setFrictionGround(float frictionGround) {
+		this.frictionGround = frictionGround;
+	}
+
+	public float getFrictionAir() {
+		return frictionAir;
+	}
+
+	public void setFrictionAir(float frictionAir) {
+		this.frictionAir = frictionAir;
+	}
+
 	public OrderedPair getTileArrayPosition(HitBox hitBox) {
 		int xPos = ((hitBox.getPosX() + hitBox.sizeX / 2)) / tileSize.getPosX();
 		int yPos = ((hitBox.getPosY() + hitBox.sizeY / 2)) / tileSize.getPosY();
@@ -212,5 +240,13 @@ public class Layer {
 	
 	public void addMob(Mob mob) {
 		mobs.add(mob);
+	}
+	
+	public float getGravityAccl() {
+		return gravityAccl;
+	}
+
+	public void setGravityAccl(float gravityAccl) {
+		this.gravityAccl = gravityAccl;
 	}
 }

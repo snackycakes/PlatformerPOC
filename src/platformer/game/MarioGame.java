@@ -1,6 +1,7 @@
 package platformer.game;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.ImageObserver;
@@ -9,13 +10,11 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import platformer.framework.AnimatedSprite;
 import platformer.framework.Game;
 import platformer.framework.HitBox;
 import platformer.framework.Layer;
 import platformer.framework.Mob;
 import platformer.framework.OrderedPair;
-import platformer.framework.Pawn;
 import platformer.framework.Scene;
 import platformer.framework.SpriteSheet;
 import platformer.framework.Tile;
@@ -53,7 +52,7 @@ public class MarioGame extends Game {
 	public void render(Graphics g, ImageObserver observer) {
 		boolean displayHitBoxes = false;
 		boolean displayTileGrid = false;
-		boolean displayPawnPosition = true;
+		boolean displayMetrics = true;
 		
 		// TODO:  Only render what is in view
 		for (int xIndex = 0; xIndex < Assets.MAXLAYERWIDTH; xIndex++) {
@@ -95,11 +94,56 @@ public class MarioGame extends Game {
 			}
 		}
 		
-		if (displayPawnPosition) {
-			g.setColor(new Color(200, 0, 0));
-			//g.drawString(playerMario.getPositionX()+ ", " + playerMario.getPositionY(), 5, 10);
-			g.drawString("VelocityX: " + Float.toString(playerMario.getVelocity().getValueX()), 5, 10);
-			g.drawString("PositionY: " + Float.toString(playerMario.getPositionY()), 150, 10);
+		if (displayMetrics) {
+			
+			int xPos = 0;
+			int yPos = 5;
+			int rowDivide = 5;
+			int colDivide = 60;
+			
+			g.setColor(new Color(200, 200, 200));
+			g.setFont(new Font("Dante",1,5));
+			
+			yPos += rowDivide;
+			g.drawString("VelocityX: " + Float.toString(playerMario.getVelocity().getValueX()), xPos, yPos);
+			yPos += rowDivide;
+			g.drawString("PositionY: " + Float.toString(playerMario.getPositionY()), xPos, yPos);
+			yPos += rowDivide;
+			g.drawString("Grounded: " + Boolean.toString(playerMario.isGrounded()), xPos, yPos);
+			
+			xPos += colDivide;
+			yPos = 5;
+			
+			yPos += rowDivide;
+			g.drawString("Gravity: " + Float.toString(actionLayer.getGravity()), xPos, yPos);
+			yPos += rowDivide;
+			g.drawString("GravityAccl: " + Float.toString(actionLayer.getGravityAccl()), xPos, yPos);
+			yPos += rowDivide;
+			g.drawString("FrictionGround: " + Float.toString(actionLayer.getFrictionGround()), xPos, yPos);
+			yPos += rowDivide;
+			g.drawString("FrictionAir: " + Float.toString(actionLayer.getFrictionAir()), xPos, yPos);
+
+			
+			xPos += colDivide;
+			yPos = 5;
+			
+			yPos += rowDivide;
+			g.drawString("JumpForce: " + Float.toString(playerMario.getJumpForce()), xPos, yPos);
+			yPos += rowDivide;
+			g.drawString("JumpInitialForce: " + Float.toString(playerMario.getJumpInitialForce()), xPos, yPos);
+			yPos += rowDivide;
+			g.drawString("JumpAcceleration: " + Float.toString(playerMario.getJumpAcceleration()), xPos, yPos);
+			yPos += rowDivide;
+			g.drawString("JumpMaxFrames: " + Float.toString(playerMario.getJumpMaxFrames()), xPos, yPos);
+			
+			xPos += colDivide;
+			yPos = 5;
+			
+			yPos += rowDivide;
+			g.drawString("MovementForce: " + Float.toString(playerMario.getMovementForce()), xPos, yPos);
+			yPos += rowDivide;
+			g.drawString("MovementAccl: " + Float.toString(playerMario.getMovementAccl()), xPos, yPos);
+			
 		}
 	}
 	
@@ -119,11 +163,13 @@ public class MarioGame extends Game {
 		Assets.Sprites.SmallMarioWalkingRight2 = marioSheet.getSprite(268, 0, 16, 16);
 		Assets.Sprites.SmallMarioWalkingRight3 = marioSheet.getSprite(299, 0, 16, 16);	
 		Assets.Sprites.SmallMarioSlidingRight = marioSheet.getSprite(59, 0, 16, 16);
+		Assets.Sprites.SmallMarioJumpingRight = marioSheet.getSprite(360, 0, 16, 16);
 		Assets.Sprites.SmallMarioStandingLeft = marioSheet.getSprite(180, 0, 16, 16);
 		Assets.Sprites.SmallMarioWalkingLeft1 = marioSheet.getSprite(149, 0, 16, 16);
 		Assets.Sprites.SmallMarioWalkingLeft2 = marioSheet.getSprite(120, 0, 16, 16);
 		Assets.Sprites.SmallMarioWalkingLeft3 = marioSheet.getSprite(89, 0, 16, 16);
 		Assets.Sprites.SmallMarioSlidingLeft = marioSheet.getSprite(330, 0, 16, 16);
+		Assets.Sprites.SmallMarioJumpingLeft = marioSheet.getSprite(29, 0, 16, 16);
 		
 		marioSheet = null;
 		
@@ -242,26 +288,96 @@ public class MarioGame extends Game {
 	
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
-		case KeyEvent.VK_UP:
-			break;
-
-		case KeyEvent.VK_DOWN:
-			break;
-
-		case KeyEvent.VK_LEFT:
-			playerMario.setMovingLeft(true);
-			break;
-
-		case KeyEvent.VK_RIGHT:
-			playerMario.setMovingRight(true);
-			break;
-
-		case KeyEvent.VK_SPACE:
-      			playerMario.setJumping(true);
-			break;
-
-		case KeyEvent.VK_CONTROL:
-			break;
+			case KeyEvent.VK_UP:
+				break;
+	
+			case KeyEvent.VK_DOWN:
+				break;
+	
+			case KeyEvent.VK_LEFT:
+				playerMario.setMovingLeft(true);
+				break;
+	
+			case KeyEvent.VK_RIGHT:
+				playerMario.setMovingRight(true);
+				break;
+	
+			case KeyEvent.VK_SPACE:
+	      			playerMario.setJumping(true);
+				break;
+	
+			case KeyEvent.VK_CONTROL:
+				break;
+			
+			case KeyEvent.VK_G:
+				if (e.isShiftDown())
+					actionLayer.setGravity(actionLayer.getGravity() - .1f);
+				else
+					actionLayer.setGravity(actionLayer.getGravity() + .1f);
+				break;
+				
+			case KeyEvent.VK_H:
+				if (e.isShiftDown())
+					actionLayer.setGravityAccl(actionLayer.getGravityAccl() - .01f);
+				else
+					actionLayer.setGravityAccl(actionLayer.getGravityAccl() + .01f);
+				break;
+				
+			case KeyEvent.VK_F:
+				if (e.isShiftDown())
+					actionLayer.setFrictionGround(actionLayer.getFrictionGround() - .01f);
+				else
+					actionLayer.setFrictionGround(actionLayer.getFrictionGround() + .01f);
+				break;
+				
+			case KeyEvent.VK_A:
+				if (e.isShiftDown())
+					actionLayer.setFrictionAir(actionLayer.getFrictionAir() - .01f);
+				else
+					actionLayer.setFrictionAir(actionLayer.getFrictionAir() + .01f);
+				break;
+				
+			case KeyEvent.VK_J:
+				if (e.isShiftDown())
+					playerMario.setJumpForce(playerMario.getJumpForce() - .1f);
+				else
+					playerMario.setJumpForce(playerMario.getJumpForce() + .1f);
+				break;
+				
+			case KeyEvent.VK_U:
+				if (e.isShiftDown())
+					playerMario.setJumpInitialForce(playerMario.getJumpInitialForce() - .1f);
+				else
+					playerMario.setJumpInitialForce(playerMario.getJumpInitialForce() + .1f);
+				break;
+				
+			case KeyEvent.VK_K:
+				if (e.isShiftDown())
+					playerMario.setJumpAcceleration(playerMario.getJumpAcceleration() - .1f);
+				else
+					playerMario.setJumpAcceleration(playerMario.getJumpAcceleration() + .1f);
+				break;
+				
+			case KeyEvent.VK_L:
+				if (e.isShiftDown())
+					playerMario.setJumpMaxFrames(playerMario.getJumpMaxFrames() - 1f);
+				else
+					playerMario.setJumpMaxFrames(playerMario.getJumpMaxFrames() + 1f);
+				break;
+				
+			case KeyEvent.VK_M:
+				if (e.isShiftDown())
+					playerMario.setMovementForce(playerMario.getMovementForce() - 1f);
+				else
+					playerMario.setMovementForce(playerMario.getMovementForce() + 1f);
+				break;
+				
+			case KeyEvent.VK_N:
+				if (e.isShiftDown())
+					playerMario.setMovementAccl(playerMario.getMovementAccl() - 1f);
+				else
+					playerMario.setMovementAccl(playerMario.getMovementAccl() + 1f);
+				break;
 		}
 	}
 	

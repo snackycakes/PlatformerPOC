@@ -7,20 +7,18 @@ public class Force {
 	OrderedPair acceleration = new OrderedPair();
 
 	public Force() {
-		setForce(0, 0, 0, 0, 0 ,0);
+		setForce(0, 0, 0 ,0);
 	}
 
 	public Force(float maxVelocityX, float maxVelocityY) {
-		setForce(maxVelocityX, maxVelocityY, maxVelocityX, maxVelocityY, maxVelocityX, maxVelocityY);
+		setForce(maxVelocityX, maxVelocityY, maxVelocityX, maxVelocityY);
 	}
 	
-	public Force(float initVelocityX, float initVelocityY, float maxVelocityX, float maxVelocityY, float acclX, float acclY) {
-		setForce(initVelocityX, initVelocityY, maxVelocityX, maxVelocityY, acclX, acclY);
+	public Force(float maxVelocityX, float maxVelocityY, float acclX, float acclY) {
+		setForce(maxVelocityX, maxVelocityY, acclX, acclY);
 	}
 	
-	public void setForce(float initVelocityX, float initVelocityY, float maxVelocityX, float maxVelocityY, float acclX, float acclY) {
-		this.initVelocity.setValueX(initVelocityX);
-		this.initVelocity.setValueY(initVelocityY);
+	public void setForce(float maxVelocityX, float maxVelocityY, float acclX, float acclY) {
 		this.maxVelocity.setValueX(maxVelocityX);
 		this.maxVelocity.setValueY(maxVelocityY);
 		this.acceleration.setValueX(acclX);
@@ -80,22 +78,6 @@ public class Force {
 	public void setInitVelocity(float initVelocityX, float initVelocityY) {
 		this.initVelocity.setValueX(initVelocityX);
 		this.initVelocity.setValueY(initVelocityY);		
-	}
-	
-	public float getInitVelocityX() {
-		return initVelocity.getValueX();
-	}
-
-	public void setInitVelocityX(float initVelocityX) {
-		this.initVelocity.setValueX(initVelocityX);
-	}
-	
-	public float getInitVelocityY() {
-		return initVelocity.getValueY();
-	}
-
-	public void setInitVelocityY(float initVelocityY) {
-		this.acceleration.setValueX(initVelocityY);
 	}
 
 	public void copy(Force force) {
