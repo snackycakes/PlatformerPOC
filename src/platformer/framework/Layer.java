@@ -198,6 +198,11 @@ public class Layer {
 			if (tile != null) {
 				for (int tilehbIndex = 0; tilehbIndex < tile.getActiveSpriteContainer().getHitBoxes().size(); tilehbIndex++) {
 					HitBox tileHitBox = tile.getActiveSpriteContainer().getHitBoxes().get(tilehbIndex);
+					
+					if ((collisionType == CollisionType.LOWER || collisionType == CollisionType.DIAGLOWERLEFT || collisionType == CollisionType.DIAGLOWERRIGHT) && ((hitBox.getPrevPosition().getValueY() + hitBox.getSizeY()) > tileHitBox.getPosition().getValueY())) {
+						//break;
+					}
+					
 					if (hitBox.checkCollision(tileHitBox)){
 						tileCollisions.add(new Collision(collisionType, hitBox, tile, tileHitBox));
 						returnValue = true;

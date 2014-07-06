@@ -101,6 +101,7 @@ public abstract class Mob extends Node {
 	
 	public void commitDesiredPosition() {
 		this.position.copy(desiredPosition);
+
 		if (desiredPositionAdjusted) {
 			if (activeSpriteContainer != null) {
 				activeSpriteContainer.updateHitBoxes(position);
