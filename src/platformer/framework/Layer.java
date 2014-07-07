@@ -192,22 +192,34 @@ public class Layer {
 	
 	public boolean checkTileCollision(ArrayList<Collision> tileCollisions, CollisionType collisionType, Mob mob, HitBox hitBox, int tilePosX, int tilePosY) {
 		boolean returnValue = false;
-		boolean cancelCollision = false;
 		
 		if (tilePosX >= 0 && tilePosY >= 0) {
 			Tile tile = tiles[tilePosX][tilePosY];		
 			if (tile != null) {
 				for (HitBox tileHitBox : tile.getActiveSpriteContainer().getHitBoxes()) {
-					
-					if ((collisionType == CollisionType.LOWER || collisionType == CollisionType.DIAGLOWERLEFT || collisionType == CollisionType.DIAGLOWERRIGHT) && mob.prevSpriteContainer != null) {
+					// resolve a lower diagonal collision to either left, right, up, or down.
+					if ((collisionType == CollisionType.DIAGLOWERLEFT || collisionType == CollisionType.DIAGLOWERRIGHT || collisionType == CollisionType.DIAGUPPERLEFT || collisionType == CollisionType.DIAGUPPERRIGHT) && mob.prevSpriteContainer != null) {
+						// check previous hitbox location to determine desired collision for this update						
 						for (HitBox prevHitBox : mob.prevSpriteContainer.getHitBoxes()) {
-							if (prevHitBox.getPosition().getPosY() + prevHitBox.getSizeY() > tileHitBox.getPosY()) {
-								cancelCollision = true;
-								break;
+							if (collisionType == CollisionType.DIAGLOWERLEFT || collisionType == CollisionType.DIAGLOWERRIGHT) {
+								if (prevHitBox.getPosition().getPosY() + prevHitBox.getSizeY() > tileHitBox.getPosY()) {
+									if (collisionType == CollisionType.DIAGLOWERLEFT) {
+										collisionType = CollisionType.LEFT;
+									} else {
+										collisionType = CollisionType.RIGHT;
+									}
+									break;
+								}
+							} else {
+								if (prevHitBox.getPosition().getPosY() < tileHitBox.getPosY() + tileHitBox.getSizeY()) {
+									if (collisionType == CollisionType.DIAGUPPERLEFT) {
+										collisionType = CollisionType.LEFT;
+									} else {
+										collisionType = CollisionType.RIGHT;
+									}
+									break;
+								}
 							}
-						}
-						if (cancelCollision) {
-							break;
 						}
 					}
 					
