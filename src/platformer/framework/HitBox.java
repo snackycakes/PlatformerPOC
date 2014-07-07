@@ -4,7 +4,6 @@ import java.awt.Rectangle;
 
 public class HitBox {
 	protected OrderedPair position = new OrderedPair();
-	protected OrderedPair prevPosition = new OrderedPair();
 	protected Rectangle boundingBox;
 	protected OrderedPair boxOffset = new OrderedPair();
 	protected int sizeX, sizeY;
@@ -15,6 +14,13 @@ public class HitBox {
 	
 	public OrderedPair getBoxOffset() {
 		return boxOffset;
+	}
+	
+	public HitBox(OrderedPair position, int sizeX, int sizeY) {
+		this.sizeX = sizeX;
+		this.sizeY = sizeY;
+		this.position = position;
+		init();
 	}
 
 	public HitBox(OrderedPair parentPosition, OrderedPair boxOffset, int sizeX, int sizeY) {
@@ -27,7 +33,6 @@ public class HitBox {
 	
 	public void updatePosition(OrderedPair parentPosition)
 	{
-		this.prevPosition.copy(this.position);
 		this.position.setPosition(parentPosition.getValueX() + this.boxOffset.getValueX(), parentPosition.getValueY() + this.boxOffset.getValueY());
 	}
 
@@ -65,9 +70,5 @@ public class HitBox {
 	
 	public int getPosY () {
 		return position.getPosY();
-	}
-	
-	public OrderedPair getPrevPosition() {
-		return prevPosition;
 	}
 }

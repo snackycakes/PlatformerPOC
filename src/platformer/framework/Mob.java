@@ -33,6 +33,7 @@ public abstract class Mob extends Node {
 	
 	@Override
 	public void update(long elapsedTime) {
+		super.update(elapsedTime);
 	}
 	
 	public void applyForce(String forceName, Force force) {
@@ -111,4 +112,6 @@ public abstract class Mob extends Node {
 	
 	public void collisionUpdate(Collision collision) {
 	}
+	
+	
 }

@@ -2,10 +2,10 @@ package platformer.framework;
 
 import java.util.ArrayList;
 
-public abstract class SpriteContainer {
+public class SpriteContainer {
 	protected ArrayList<HitBox> hitBoxes = new ArrayList<HitBox>();
 	
-	public abstract Sprite getSprite();
+	public Sprite getSprite() {return null;}
 	
 	public void update(long elapsedTime, OrderedPair parentPosition) {
 		updateHitBoxes(parentPosition);
@@ -28,4 +28,12 @@ public abstract class SpriteContainer {
 		hitBoxes.add(hitBox);
 	}
 	
+	public void copy(SpriteContainer spriteContainer) {
+		this.hitBoxes = new ArrayList<HitBox>();
+		for (HitBox hitBox : spriteContainer.hitBoxes) {
+			OrderedPair hitBoxPosition = new OrderedPair();
+			hitBoxPosition.copy(hitBox.getPosition());
+			hitBoxes.add(new HitBox(hitBoxPosition, hitBox.sizeX, hitBox.sizeY));
+		}
+	}
 }

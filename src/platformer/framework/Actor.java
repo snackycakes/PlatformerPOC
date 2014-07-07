@@ -13,7 +13,7 @@ public abstract class Actor extends Mob {
 	
 	protected float movementForce = 2f;
 	protected float movementAccl = .12f;
-	protected float jumpForce = -3.6f;
+	protected float jumpForce = -3.0f;
 	protected float jumpInitialForce = -2.8f;
 	protected float jumpAcceleration = -2f;
 	protected float jumpMaxFrames = 20f;
@@ -68,6 +68,8 @@ public abstract class Actor extends Mob {
 
 	@Override
 	public void update(long elapsedTime) {
+		super.update(elapsedTime);
+		
 		if (isMovingRight) {
 			applyForce("movement", 0, 0, movementForce, 0, movementAccl, 0);
 		}
@@ -119,8 +121,6 @@ public abstract class Actor extends Mob {
 		if (activeSpriteContainer != null) {
 			activeSpriteContainer.update(elapsedTime, desiredPosition);
 		}
-		
-		super.update(elapsedTime);
 	}
 
 	@Override

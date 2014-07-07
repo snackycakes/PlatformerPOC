@@ -3,6 +3,7 @@ package platformer.framework;
 public abstract class Node {
 	protected OrderedPair position;
 	protected SpriteContainer activeSpriteContainer;
+	protected SpriteContainer prevSpriteContainer = new SpriteContainer();
 	protected boolean stopsMovement = true;
 	
 	public Sprite getActiveSprite() {
@@ -33,7 +34,9 @@ public abstract class Node {
 		this.position = new OrderedPair(xPos, yPos);
 	}
 	
-	public void update(long elapsedTime) {}
+	public void update(long elapsedTime) {
+		this.prevSpriteContainer.copy(this.activeSpriteContainer);
+	}
 
 	public OrderedPair getPosition() {
 		return position;
@@ -69,5 +72,9 @@ public abstract class Node {
 	
 	public void setStopsMovement(boolean stopsMovement) {
 		this.stopsMovement = stopsMovement;
+	}
+
+	public SpriteContainer getPrevSpriteContainer() {
+		return prevSpriteContainer;
 	}
 }
