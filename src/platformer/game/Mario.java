@@ -31,7 +31,7 @@ public class Mario extends Pawn {
 		marioWalkingRight.addFrame(Assets.Sprites.SmallMarioWalkingRight2, 100);
 		marioWalkingRight.addFrame(Assets.Sprites.SmallMarioWalkingRight3, 100);
 		marioWalkingRight.addFrame(Assets.Sprites.SmallMarioWalkingRight2, 100);
-		marioWalkingRight.addHitBox(new HitBox(position, new OrderedPair(2, 0), Assets.TILESIZE - 2, Assets.TILESIZE - 1));
+		marioWalkingRight.addHitBox(new HitBox(position, new OrderedPair(0, 0), Assets.TILESIZE, Assets.TILESIZE));
 		movingRight = marioWalkingRight;
 		
 		StaticSprite marioSlidingRight = new StaticSprite(Assets.Sprites.SmallMarioSlidingRight, position);
@@ -43,7 +43,7 @@ public class Mario extends Pawn {
 		marioWalkingLeft.addFrame(Assets.Sprites.SmallMarioWalkingLeft2, 100);
 		marioWalkingLeft.addFrame(Assets.Sprites.SmallMarioWalkingLeft3, 100);
 		marioWalkingLeft.addFrame(Assets.Sprites.SmallMarioWalkingLeft2, 100);
-		marioWalkingLeft.addHitBox(new HitBox(position, new OrderedPair(0, 0), Assets.TILESIZE - 2, Assets.TILESIZE - 1));
+		marioWalkingLeft.addHitBox(new HitBox(position, new OrderedPair(0, 0), Assets.TILESIZE, Assets.TILESIZE));
 		movingLeft = marioWalkingLeft;
 		
 		StaticSprite marioSlidingLeft = new StaticSprite(Assets.Sprites.SmallMarioSlidingLeft, position);
@@ -73,40 +73,37 @@ public class Mario extends Pawn {
 	public void update(long elapsedTime) {
 		super.update(elapsedTime);
 		
-		// isJumping is a very short duration, so jump sprite doesn't last long.
-		if (isMovingRight) {
-			isFacingRight = true;
-			if (!isJumping) {
+		if (!isJumping) {
+			if (velocity.getValueX() == 0) {
+				if (isFacingRight) {
+					activeSpriteContainer = standingRight;
+				} else {
+					activeSpriteContainer = standingLeft;
+				}
+			} else 	if (isMovingRight) {
+				isFacingRight = true;
 				if (velocity.getValueX() < 0) {
 					activeSpriteContainer = slidingLeft;
 				} else {
 					activeSpriteContainer = movingRight;
 				}
-			}
-		} else if (isMovingLeft) {
-			isFacingRight = false;
-			if (!isJumping) {
+			} else if (isMovingLeft) {
+				isFacingRight = false;
 				if (velocity.getValueX() > 0) {
 					activeSpriteContainer = slidingRight;
 				} else {
 					activeSpriteContainer = movingLeft;	
 				}
-			}
-		}
-		
-		if (isJumping){
-			if (velocity.getValueX() > 0 || isFacingRight) {
-				activeSpriteContainer = jumpingRight;
-			} else if (velocity.getValueX() < 0 || !isFacingRight) {
-				activeSpriteContainer = jumpingLeft;
-			}
-		}
-		
-		if (velocity.getValueX() == 0 && !isJumping) {
-			if (isFacingRight) {
-				activeSpriteContainer = standingRight;
+			} else if (isFacingRight) {
+				activeSpriteContainer = movingRight;				
 			} else {
-				activeSpriteContainer = standingLeft;
+				activeSpriteContainer = movingLeft;	
+			}
+		} else if (isJumping){
+			if (isFacingRight) {
+				activeSpriteContainer = jumpingRight;
+			} else {
+				activeSpriteContainer = jumpingLeft;
 			}
 		}
 		

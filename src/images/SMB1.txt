@@ -21,8 +21,8 @@
 
 
                 I   BIBIB                     T          T 
-                    B                  T                   
-H                   B       T                             
-           1    2   B                 W       W          W 
+                                       T                   
+H                           T                             
+           1    2                     W       W          W 
 GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG  GG
 000000000000000000000000000000000000000000000000000000000000000000000  00

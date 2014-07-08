@@ -2,6 +2,8 @@ package platformer.framework;
 
 import java.util.HashMap;
 
+import platformer.framework.Collision.CollisionType;
+
 public abstract class Mob extends Node {
 	protected OrderedPair desiredPosition;
 	protected OrderedPair velocity;
@@ -102,12 +104,6 @@ public abstract class Mob extends Node {
 	
 	public void commitDesiredPosition() {
 		this.position.copy(desiredPosition);
-
-		if (desiredPositionAdjusted) {
-			if (activeSpriteContainer != null) {
-				activeSpriteContainer.updateHitBoxes(position);
-			}
-		}
 	}
 	
 	public void collisionUpdate(Collision collision) {

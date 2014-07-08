@@ -50,7 +50,7 @@ public class MarioGame extends Game {
 	
 	@Override
 	public void render(Graphics g, ImageObserver observer) {
-		boolean displayHitBoxes = true;
+		boolean displayHitBoxes = false;
 		boolean displayTileGrid = false;
 		boolean displayMetrics = true;
 		
@@ -110,6 +110,8 @@ public class MarioGame extends Game {
 			g.drawString("PositionY: " + Float.toString(playerMario.getPositionY()), xPos, yPos);
 			yPos += rowDivide;
 			g.drawString("Grounded: " + Boolean.toString(playerMario.isGrounded()), xPos, yPos);
+			yPos += rowDivide;
+			g.drawString("IsJumping: " + Boolean.toString(playerMario.isJumping()), xPos, yPos);
 			
 			xPos += colDivide;
 			yPos = 5;

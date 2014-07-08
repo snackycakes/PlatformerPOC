@@ -50,45 +50,8 @@ public class Layer {
 		
 		mob.update(elapsedTime);
 		
-		// check and respond to tile collisions
-		ArrayList<Collision> tileCollisions = checkTileCollisions(mob);
-		
-		if (tileCollisions.size() == 0) {
-			mob.collisionUpdate(null);
-		}
-		
-		for (int colIndex = 0; colIndex < tileCollisions.size(); colIndex++) {
-			Collision tileCollision = tileCollisions.get(colIndex);
-			mob.collisionUpdate(tileCollision);
-			switch (tileCollision.getCollisionType()) {
-				case LOWER:
-				//case DIAGLOWERLEFT:
-				//case DIAGLOWERRIGHT:
-					if (tileCollision.getCollisionNode().isStopsMovement()) {
-						mob.setDesiredPositionY(mob.getDesiredPositionY() - ((tileCollision.getActiveHitBox().getPosY() + tileCollision.getActiveHitBox().getSizeY()) - tileCollision.getCollisionHitBox().getPosY()));
-					}
-					break;
-				//case DIAGUPPERLEFT:
-				//case DIAGUPPERRIGHT:
-				case UPPER:
-					if (tileCollision.getCollisionNode().isStopsMovement()) {
-						mob.setDesiredPositionY(mob.getDesiredPositionY() + ((tileCollision.getCollisionHitBox().getPosY() + tileCollision.getCollisionHitBox().getSizeY()) - tileCollision.getActiveHitBox().getPosY()));
-					}
-					break;
-				case RIGHT:
-					if (tileCollision.getCollisionNode().isStopsMovement()) {
-						mob.setDesiredPositionX(mob.getDesiredPositionX() - ((tileCollision.getActiveHitBox().getPosX() + tileCollision.getActiveHitBox().getSizeX()) - tileCollision.getCollisionHitBox().getPosX()));
-					}
-					break;
-				case LEFT:
-					if (tileCollision.getCollisionNode().isStopsMovement()) {
-						mob.setDesiredPositionX(mob.getDesiredPositionX() + ((tileCollision.getCollisionHitBox().getPosX() + tileCollision.getCollisionHitBox().getSizeX()) - tileCollision.getActiveHitBox().getPosX()));
-					}
-					break;
-				default:
-					break;
-			}
-		}
+		// check and resolve tile collisions
+		checkTileCollisions(mob);
 		
 		mob.commitDesiredPosition();
 	}
@@ -125,73 +88,71 @@ public class Layer {
 			int hitBoxTileWidth = (int)Math.ceil((double)hitBox.getSizeX() / tileSize.getPosX());
 			int hitBoxTileHeight = (int)Math.ceil((double)hitBox.getSizeY() / tileSize.getPosY());
 			boolean tileCollision = false;
-			boolean lowerCollision = false;
-			boolean upperCollision = false;
-			
-			// check collision with tiles directly underneath hitbox
-			yPos = hitBoxTilePos.getPosY() + hitBoxTileHeight;
-			for (xPos = hitBoxTilePos.getPosX(); xPos < hitBoxTilePos.getPosX() + hitBoxTileWidth; xPos++) {
-				tileCollision = checkTileCollision(tileCollisions, CollisionType.LOWER, mob, hitBox, xPos, yPos);
-				lowerCollision = tileCollision;
-				if (tileCollision) break;
-			}
-			
-			// check collision with tiles directly above hitbox
-			yPos = hitBoxTilePos.getPosY() - 1;
-			for (xPos = hitBoxTilePos.getPosX(); xPos < hitBoxTilePos.getPosX() + hitBoxTileWidth; xPos++) {
-				tileCollision = checkTileCollision(tileCollisions, CollisionType.UPPER, mob, hitBox, xPos, yPos);
-				upperCollision = tileCollision;
-				if (tileCollision) break;
-			}
 			
 			// check collision with tiles to the right of the hitbox
 			xPos = hitBoxTilePos.getPosX() + hitBoxTileWidth;
 			for (yPos = hitBoxTilePos.getPosY(); yPos < hitBoxTilePos.getPosY() + hitBoxTileHeight; yPos++) {
-				tileCollision = checkTileCollision(tileCollisions, CollisionType.RIGHT, mob, hitBox, xPos, yPos);
+				tileCollision = resolveCollision(tileCollisions, CollisionType.RIGHT, mob, hitBox, xPos, yPos);
 				if (tileCollision) break;
 			}
 			
 			// check collision with tiles left of the hitbox
 			xPos = hitBoxTilePos.getPosX() - 1;
 			for (yPos = hitBoxTilePos.getPosY(); yPos < hitBoxTilePos.getPosY() + hitBoxTileHeight; yPos++) {
-				tileCollision = checkTileCollision(tileCollisions, CollisionType.LEFT, mob, hitBox, xPos, yPos);
+				tileCollision = resolveCollision(tileCollisions, CollisionType.LEFT, mob, hitBox, xPos, yPos);
 				if (tileCollision) break;
 			}
 			
-			if (!lowerCollision) {
-				// check lower left diag collision
-				yPos = hitBoxTilePos.getPosY() + hitBoxTileHeight;
-				xPos = hitBoxTilePos.getPosX() - 1;
-				tileCollision = checkTileCollision(tileCollisions, CollisionType.DIAGLOWERLEFT, mob, hitBox, xPos, yPos);
-				
-				if (!tileCollision) {
-					// check lower right diag collision
-					yPos = hitBoxTilePos.getPosY() + hitBoxTileHeight;
-					xPos = hitBoxTilePos.getPosX() + hitBoxTileWidth;
-					tileCollision = checkTileCollision(tileCollisions, CollisionType.DIAGLOWERRIGHT, mob, hitBox, xPos, yPos);
-				}
+			// check lower left diag collision
+			yPos = hitBoxTilePos.getPosY() + hitBoxTileHeight;
+			xPos = hitBoxTilePos.getPosX() - 1;
+			tileCollision = resolveCollision(tileCollisions, CollisionType.DIAGLOWERLEFT, mob, hitBox, xPos, yPos);
+			
+			// check lower right diag collision
+			yPos = hitBoxTilePos.getPosY() + hitBoxTileHeight;
+			xPos = hitBoxTilePos.getPosX() + hitBoxTileWidth;
+			tileCollision = resolveCollision(tileCollisions, CollisionType.DIAGLOWERRIGHT, mob, hitBox, xPos, yPos);
+			
+			// check upper left diag collision
+			yPos = hitBoxTilePos.getPosY() - 1;
+			xPos = hitBoxTilePos.getPosX() - 1;
+			tileCollision = resolveCollision(tileCollisions, CollisionType.DIAGUPPERLEFT, mob, hitBox, xPos, yPos);
+			
+			// check upper right diag collision
+			yPos = hitBoxTilePos.getPosY() - 1;
+			xPos = hitBoxTilePos.getPosX() + hitBoxTileWidth;
+			tileCollision = resolveCollision(tileCollisions, CollisionType.DIAGUPPERRIGHT, mob, hitBox, xPos, yPos);
+			
+			// check collision with tiles directly underneath hitbox
+			yPos = hitBoxTilePos.getPosY() + hitBoxTileHeight;
+			for (xPos = hitBoxTilePos.getPosX(); xPos < hitBoxTilePos.getPosX() + hitBoxTileWidth; xPos++) {
+				tileCollision = resolveCollision(tileCollisions, CollisionType.LOWER, mob, hitBox, xPos, yPos);
+				if (tileCollision) break;
 			}
 			
-			if (!upperCollision) {
-				// check upper left diag collision
-				yPos = hitBoxTilePos.getPosY() - 1;
-				xPos = hitBoxTilePos.getPosX() - 1;
-				tileCollision = checkTileCollision(tileCollisions, CollisionType.DIAGUPPERLEFT, mob, hitBox, xPos, yPos);
-				
-				if (!tileCollision) {
-					// check upper right diag collision
-					yPos = hitBoxTilePos.getPosY() - 1;
-					xPos = hitBoxTilePos.getPosX() + hitBoxTileWidth;
-					tileCollision = checkTileCollision(tileCollisions, CollisionType.DIAGUPPERRIGHT, mob, hitBox, xPos, yPos);
-				}
+			// check collision with tiles directly above hitbox
+			yPos = hitBoxTilePos.getPosY() - 1;
+			for (xPos = hitBoxTilePos.getPosX(); xPos < hitBoxTilePos.getPosX() + hitBoxTileWidth; xPos++) {
+				tileCollision = resolveCollision(tileCollisions, CollisionType.UPPER, mob, hitBox, xPos, yPos);
+				if (tileCollision) break;
 			}
 		}
+		
+		boolean isMobGrounded = false;		
+		for (Collision tileCollision : tileCollisions) {
+			if (tileCollision.getCollisionNode().isStopsMovement() && tileCollision.collisionType == CollisionType.LOWER) {
+				isMobGrounded = true;
+				break;
+			}
+		}
+		mob.setGrounded(isMobGrounded);		
 		
 		return tileCollisions;
 	}
 	
-	public boolean checkTileCollision(ArrayList<Collision> tileCollisions, CollisionType collisionType, Mob mob, HitBox hitBox, int tilePosX, int tilePosY) {
+	public boolean resolveCollision(ArrayList<Collision> tileCollisions, CollisionType collisionType, Mob mob, HitBox hitBox, int tilePosX, int tilePosY) {
 		boolean returnValue = false;
+		Collision tileCollision = null;
 		
 		if (tilePosX >= 0 && tilePosY >= 0) {
 			Tile tile = tiles[tilePosX][tilePosY];		
@@ -226,12 +187,47 @@ public class Layer {
 					}
 					
 					if (hitBox.checkCollision(tileHitBox)) {
-						tileCollisions.add(new Collision(collisionType, hitBox, tile, tileHitBox));
+						tileCollision = new Collision(collisionType, hitBox, tile, tileHitBox);
+						tileCollisions.add(tileCollision);
 						returnValue = true;
 						break;
 					}
 				}
 			}
+		}
+		
+		if (tileCollision != null) {
+			mob.collisionUpdate(tileCollision);
+			
+			switch (tileCollision.getCollisionType()) {
+				case LOWER:
+					if (tileCollision.getCollisionNode().isStopsMovement()) {
+						mob.setDesiredPositionY(mob.getDesiredPositionY() - ((tileCollision.getActiveHitBox().getPosY() + tileCollision.getActiveHitBox().getSizeY()) - tileCollision.getCollisionHitBox().getPosY()));
+					}
+					break;
+				case UPPER:
+					if (tileCollision.getCollisionNode().isStopsMovement()) {
+						mob.setDesiredPositionY(mob.getDesiredPositionY() + ((tileCollision.getCollisionHitBox().getPosY() + tileCollision.getCollisionHitBox().getSizeY()) - tileCollision.getActiveHitBox().getPosY()));
+						mob.setVelocityY(0);
+					}
+					break;
+				case LEFT:
+					if (tileCollision.getCollisionNode().isStopsMovement()) {
+						mob.setDesiredPositionX(mob.getDesiredPositionX() + ((tileCollision.getCollisionHitBox().getPosX() + tileCollision.getCollisionHitBox().getSizeX()) - tileCollision.getActiveHitBox().getPosX()));
+						mob.setVelocityX(0);
+					}
+					break;
+				case RIGHT:
+					if (tileCollision.getCollisionNode().isStopsMovement()) {
+						mob.setDesiredPositionX(mob.getDesiredPositionX() - ((tileCollision.getActiveHitBox().getPosX() + tileCollision.getActiveHitBox().getSizeX()) - tileCollision.getCollisionHitBox().getPosX()));
+						mob.setVelocityX(0);
+					}
+					break;
+				default:
+					break;
+			}
+			
+			mob.getActiveSpriteContainer().updateHitBoxes(mob.getDesiredPosition());
 		}
 		
 		return returnValue;

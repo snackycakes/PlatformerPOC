@@ -1,5 +1,7 @@
 package platformer.framework;
 
+import platformer.framework.Collision.CollisionType;
+
 public abstract class Actor extends Mob {
 	
 	protected SpriteContainer standingLeft;
@@ -18,7 +20,9 @@ public abstract class Actor extends Mob {
 	protected float jumpAcceleration = -2f;
 	protected float jumpMaxFrames = 20f;
 	protected float jumpFrameCount = 0f;
+	protected float jumpMovementCoefficent = .4f;
 	
+	protected boolean applyJumpForce = false;	
 	protected boolean isMovingRight = false;
 	protected boolean isMovingLeft = false;
 	protected boolean isJumping = false;
@@ -58,11 +62,12 @@ public abstract class Actor extends Mob {
 	public void setJumping(boolean isJumping) {
 		if (isJumping && grounded) {
 			this.isJumping = true;
-			grounded = false;
-			jumpFrameCount = 0;
+			this.applyJumpForce = true;
+			this.grounded = false;
+			this.jumpFrameCount = 0;
 		} else if (!isJumping) {
-			this.isJumping = false;
-			jumpFrameCount = 0;
+			this.applyJumpForce = false;
+			this.jumpFrameCount = 0;
 		}
 	}
 
@@ -70,13 +75,18 @@ public abstract class Actor extends Mob {
 	public void update(long elapsedTime) {
 		super.update(elapsedTime);
 		
+		float movementCoefficent = 1;
+		if (!grounded) {
+			movementCoefficent = jumpMovementCoefficent;
+		}
+		
 		if (isMovingRight) {
-			applyForce("movement", 0, 0, movementForce, 0, movementAccl, 0);
+			applyForce("movement", 0, 0, movementForce, 0, movementAccl * movementCoefficent, 0);
 		}
 		if (isMovingLeft) {
-			applyForce("movement", 0, 0, -movementForce, 0, -movementAccl, 0);
+			applyForce("movement", 0, 0, -movementForce, 0, -movementAccl * movementCoefficent, 0);
 		}
-		if (isJumping) {
+		if (applyJumpForce) {
 			if (jumpFrameCount == 0) {
 				applyForce("jump", 0, 0, 0, jumpForce, 0, jumpInitialForce);
 			} else {
@@ -84,7 +94,7 @@ public abstract class Actor extends Mob {
 			}
 			jumpFrameCount++;
 			if (jumpFrameCount >= jumpMaxFrames) {
-				isJumping = false;
+				applyJumpForce = false;
 				jumpFrameCount = 0;			
 			}
 		}
@@ -120,25 +130,6 @@ public abstract class Actor extends Mob {
 		
 		if (activeSpriteContainer != null) {
 			activeSpriteContainer.update(elapsedTime, desiredPosition);
-		}
-	}
-
-	@Override
-	public void collisionUpdate(Collision collision) {
-		if (collision == null) {
-			grounded = false;
-		} else {
-			switch (collision.collisionType) {
-				case LOWER:
-				case DIAGLOWERLEFT:
-				case DIAGLOWERRIGHT:
-					if (collision.collisionNode.isStopsMovement() && !isJumping) {
-						grounded = true;
-					}
-					break;
-				default:
-					break;
-			}	
 		}
 	}
 
@@ -212,6 +203,23 @@ public abstract class Actor extends Mob {
 
 	public void setJumpMaxFrames(float jumpMaxFrames) {
 		this.jumpMaxFrames = jumpMaxFrames;
+	}
+
+	@Override
+	public void setGrounded(boolean grounded) {
+		super.setGrounded(grounded);
+		if (!applyJumpForce && grounded) {
+			isJumping = false;	
+		}
+	}
+
+	@Override
+	public void collisionUpdate(Collision collision) {
+		super.collisionUpdate(collision);
+		
+		if (collision.collisionType == CollisionType.UPPER) {
+			this.applyJumpForce = false;
+		}
 	}
 	
 	
