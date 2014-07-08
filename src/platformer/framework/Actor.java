@@ -13,7 +13,7 @@ public abstract class Actor extends Mob {
 	
 	protected float movementForce = 2f;
 	protected float movementAccl = .12f;
-	protected float jumpForce = -3.0f;
+	protected float jumpForce = -3.6f;
 	protected float jumpInitialForce = -2.8f;
 	protected float jumpAcceleration = -2f;
 	protected float jumpMaxFrames = 20f;

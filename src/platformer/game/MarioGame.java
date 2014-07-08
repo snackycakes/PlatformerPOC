@@ -50,7 +50,7 @@ public class MarioGame extends Game {
 	
 	@Override
 	public void render(Graphics g, ImageObserver observer) {
-		boolean displayHitBoxes = false;
+		boolean displayHitBoxes = true;
 		boolean displayTileGrid = false;
 		boolean displayMetrics = true;
 		

@@ -62,14 +62,14 @@ public class Layer {
 			mob.collisionUpdate(tileCollision);
 			switch (tileCollision.getCollisionType()) {
 				case LOWER:
-				case DIAGLOWERLEFT:
-				case DIAGLOWERRIGHT:
+				//case DIAGLOWERLEFT:
+				//case DIAGLOWERRIGHT:
 					if (tileCollision.getCollisionNode().isStopsMovement()) {
 						mob.setDesiredPositionY(mob.getDesiredPositionY() - ((tileCollision.getActiveHitBox().getPosY() + tileCollision.getActiveHitBox().getSizeY()) - tileCollision.getCollisionHitBox().getPosY()));
 					}
 					break;
-				case DIAGUPPERLEFT:
-				case DIAGUPPERRIGHT:
+				//case DIAGUPPERLEFT:
+				//case DIAGUPPERRIGHT:
 				case UPPER:
 					if (tileCollision.getCollisionNode().isStopsMovement()) {
 						mob.setDesiredPositionY(mob.getDesiredPositionY() + ((tileCollision.getCollisionHitBox().getPosY() + tileCollision.getCollisionHitBox().getSizeY()) - tileCollision.getActiveHitBox().getPosY()));
@@ -202,13 +202,14 @@ public class Layer {
 						// check previous hitbox location to determine desired collision for this update						
 						for (HitBox prevHitBox : mob.prevSpriteContainer.getHitBoxes()) {
 							if (collisionType == CollisionType.DIAGLOWERLEFT || collisionType == CollisionType.DIAGLOWERRIGHT) {
-								if (prevHitBox.getPosition().getPosY() + prevHitBox.getSizeY() > tileHitBox.getPosY()) {
+								if ((prevHitBox.getPosition().getPosY() + prevHitBox.getSizeY() > tileHitBox.getPosY())) {
 									if (collisionType == CollisionType.DIAGLOWERLEFT) {
 										collisionType = CollisionType.LEFT;
 									} else {
 										collisionType = CollisionType.RIGHT;
 									}
-									break;
+								} else {
+									collisionType = CollisionType.LOWER;
 								}
 							} else {
 								if (prevHitBox.getPosition().getPosY() < tileHitBox.getPosY() + tileHitBox.getSizeY()) {
@@ -217,7 +218,8 @@ public class Layer {
 									} else {
 										collisionType = CollisionType.RIGHT;
 									}
-									break;
+								} else {
+									collisionType = CollisionType.UPPER;
 								}
 							}
 						}
