@@ -89,6 +89,13 @@ public class Layer {
 			int hitBoxTileHeight = (int)Math.ceil((double)hitBox.getSizeY() / tileSize.getPosY());
 			boolean tileCollision = false;
 			
+			// check collision with tiles directly above hitbox
+			yPos = hitBoxTilePos.getPosY() - 1;
+			for (xPos = hitBoxTilePos.getPosX(); xPos < hitBoxTilePos.getPosX() + hitBoxTileWidth; xPos++) {
+				tileCollision = resolveCollision(tileCollisions, CollisionType.UPPER, mob, hitBox, xPos, yPos);
+				if (tileCollision) break;
+			}
+			
 			// check collision with tiles to the right of the hitbox
 			xPos = hitBoxTilePos.getPosX() + hitBoxTileWidth;
 			for (yPos = hitBoxTilePos.getPosY(); yPos < hitBoxTilePos.getPosY() + hitBoxTileHeight; yPos++) {
@@ -127,13 +134,6 @@ public class Layer {
 			yPos = hitBoxTilePos.getPosY() + hitBoxTileHeight;
 			for (xPos = hitBoxTilePos.getPosX(); xPos < hitBoxTilePos.getPosX() + hitBoxTileWidth; xPos++) {
 				tileCollision = resolveCollision(tileCollisions, CollisionType.LOWER, mob, hitBox, xPos, yPos);
-				if (tileCollision) break;
-			}
-			
-			// check collision with tiles directly above hitbox
-			yPos = hitBoxTilePos.getPosY() - 1;
-			for (xPos = hitBoxTilePos.getPosX(); xPos < hitBoxTilePos.getPosX() + hitBoxTileWidth; xPos++) {
-				tileCollision = resolveCollision(tileCollisions, CollisionType.UPPER, mob, hitBox, xPos, yPos);
 				if (tileCollision) break;
 			}
 		}
