@@ -4,7 +4,11 @@ public abstract class Node {
 	protected OrderedPair position;
 	protected SpriteContainer activeSpriteContainer;
 	protected SpriteContainer prevSpriteContainer = new SpriteContainer();
+	protected SpriteContainer activationSpriteContainer;
+	protected SpriteContainer destructionSpriteContainer;
 	protected boolean stopsMovement = true;
+	protected boolean canActivate = true;
+	protected boolean canDestroy = false;
 	
 	public Sprite getActiveSprite() {
 		return activeSpriteContainer.getSprite();
@@ -76,5 +80,52 @@ public abstract class Node {
 
 	public SpriteContainer getPrevSpriteContainer() {
 		return prevSpriteContainer;
+	}
+
+	public SpriteContainer getActivationSpriteContainer() {
+		return activationSpriteContainer;
+	}
+	
+	public void setActivationSpriteConatiner(SpriteContainer activationSpriteContainer) {
+		this.activationSpriteContainer = activationSpriteContainer;
+	}
+
+	public void setDestructionSpriteConatiner(SpriteContainer destructionSpriteContainer) {
+		this.destructionSpriteContainer = destructionSpriteContainer;
+	}
+
+	public void setCanActivate(boolean canActivate) {
+		this.canActivate = canActivate;
+	}
+	
+	public boolean canActivate() {
+		return canActivate;
+	}
+	
+	public void activateNode() {
+		if (canActivate) {
+			if (activationSpriteContainer != null) {
+				activeSpriteContainer = activationSpriteContainer;
+			}
+			canActivate = false;
+		}
+	}
+	
+	public void setCanDestroy(boolean canDestroy) {
+		this.canDestroy = canDestroy;
+	}
+	
+	public boolean canDestroy() {
+		return canDestroy;
+	}
+	
+	public void destroyNode() {
+		if (canDestroy) {
+			if (destructionSpriteContainer != null) {
+				activeSpriteContainer = destructionSpriteContainer;
+			}
+			stopsMovement = false;
+			canDestroy = false;
+		}
 	}
 }

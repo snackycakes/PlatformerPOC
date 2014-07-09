@@ -5,8 +5,10 @@ import java.io.*;
 import java.util.ArrayList;
 
 import platformer.framework.Layer;
+import platformer.framework.OrderedPair;
 import platformer.framework.Sprite;
 import platformer.framework.SpriteContainer;
+import platformer.framework.StaticSprite;
 import platformer.framework.Tile;
 import platformer.game.Assets.Sprites;
 
@@ -102,6 +104,8 @@ public class MarioTileLoader {
 					}			
 					else if(ch == 'B'){
 						MarioTile tile = new MarioTile(Assets.Sprites.BrownBrick, i * Assets.TILESIZE, j * Assets.TILESIZE);
+						tile.setCanDestroy(true);
+						tile.setDestructionSpriteConatiner(new StaticSprite(Assets.Sprites.BrownBrickBreak1, new OrderedPair(i * Assets.TILESIZE, j * Assets.TILESIZE)));
 						layer.setTile(tile, i, j);
 					}
 					else if(ch == 'I'){

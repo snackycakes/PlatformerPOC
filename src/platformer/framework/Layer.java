@@ -197,7 +197,6 @@ public class Layer {
 		}
 		
 		if (tileCollision != null) {
-			mob.collisionUpdate(tileCollision);
 			
 			switch (tileCollision.getCollisionType()) {
 				case LOWER:
@@ -228,6 +227,7 @@ public class Layer {
 			}
 			
 			mob.getActiveSpriteContainer().updateHitBoxes(mob.getDesiredPosition());
+			mob.collisionUpdate(tileCollision);
 		}
 		
 		return returnValue;

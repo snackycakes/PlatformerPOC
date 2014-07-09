@@ -42,7 +42,7 @@ public abstract class Mob extends Node {
 		appliedForces.put(forceName, force);
 	}
 	
-	public void applyForce(String forceName, float intVelocityX, float initVelocityY, float maxVelocityX, float maxVelocityY, float acclX, float acclY) {
+	public void applyForce(String forceName, float maxVelocityX, float maxVelocityY, float acclX, float acclY) {
 		appliedForces.put(forceName, new Force(maxVelocityX, maxVelocityY, acclX, acclY));
 	}
 	

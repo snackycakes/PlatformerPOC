@@ -262,6 +262,7 @@ public class MarioGame extends Game {
 		Assets.Sprites.ItemBlock3 = tileSheet.getSprite(427, 45, 16, 16);
 		//public static Sprite ItemBlockEmpty;
 		Assets.Sprites.BrownBrick = tileSheet.getSprite(469, 45, 16, 16);
+		Assets.Sprites.BrownBrickBreak1 = tileSheet.getSprite(0, 0, 1, 1);
 		//public static Sprite BrownBrickPiece;
 		//public static Sprite UGItemBlock1;
 		//public static Sprite UGItemBlock2;

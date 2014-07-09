@@ -81,16 +81,18 @@ public abstract class Actor extends Mob {
 		}
 		
 		if (isMovingRight) {
-			applyForce("movement", 0, 0, movementForce, 0, movementAccl * movementCoefficent, 0);
+			applyForce("movement", movementForce, 0, movementAccl * movementCoefficent, 0);
 		}
+		
 		if (isMovingLeft) {
-			applyForce("movement", 0, 0, -movementForce, 0, -movementAccl * movementCoefficent, 0);
+			applyForce("movement", -movementForce, 0, -movementAccl * movementCoefficent, 0);
 		}
+		
 		if (applyJumpForce) {
 			if (jumpFrameCount == 0) {
-				applyForce("jump", 0, 0, 0, jumpForce, 0, jumpInitialForce);
+				applyForce("jump", 0, jumpForce, 0, jumpInitialForce);
 			} else {
-				applyForce("jump", 0, 0, 0, jumpForce, 0, jumpAcceleration);
+				applyForce("jump", 0, jumpForce, 0, jumpAcceleration);
 			}
 			jumpFrameCount++;
 			if (jumpFrameCount >= jumpMaxFrames) {

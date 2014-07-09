@@ -1,6 +1,8 @@
 package platformer.game;
 
 import platformer.framework.AnimatedSprite;
+import platformer.framework.Collision;
+import platformer.framework.Collision.CollisionType;
 import platformer.framework.HitBox;
 import platformer.framework.Pawn;
 import platformer.framework.OrderedPair;
@@ -108,5 +110,16 @@ public class Mario extends Pawn {
 		}
 		
 		activeSpriteContainer.updateHitBoxes(desiredPosition);
-	}	
+	}
+
+	@Override
+	public void collisionUpdate(Collision collision) {
+		super.collisionUpdate(collision);
+		
+		if (collision.getCollisionType() == CollisionType.UPPER) {
+			collision.getCollisionNode().destroyNode();
+		}
+	}
+	
+	
 }
