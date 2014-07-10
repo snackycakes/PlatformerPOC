@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import platformer.framework.Collision.CollisionType;
 
-public class Layer {
+public class Layer implements NodeEventListener {
 	protected int depth;
 	
 	protected ArrayList<Mob> mobs = new ArrayList<Mob>();
@@ -51,7 +51,7 @@ public class Layer {
 		mob.update(elapsedTime);
 		
 		// check and resolve tile collisions
-		checkTileCollisions(mob);
+		resolveTileCollisions(mob);
 		
 		mob.commitDesiredPosition();
 	}
@@ -78,7 +78,7 @@ public class Layer {
 		return new OrderedPair(xPos, yPos);
 	}
 	
-	public ArrayList<Collision> checkTileCollisions(Mob mob) {
+	public ArrayList<Collision> resolveTileCollisions(Mob mob) {
 		ArrayList<Collision> tileCollisions = new ArrayList<Collision>();
 		
 		for (int hbIndex = 0; hbIndex < mob.getActiveSpriteContainer().getHitBoxes().size(); hbIndex++) {
@@ -153,9 +153,11 @@ public class Layer {
 	public boolean resolveCollision(ArrayList<Collision> tileCollisions, CollisionType collisionType, Mob mob, HitBox hitBox, int tilePosX, int tilePosY) {
 		boolean returnValue = false;
 		Collision tileCollision = null;
+		Tile tile = null;	
 		
 		if (tilePosX >= 0 && tilePosY >= 0) {
-			Tile tile = tiles[tilePosX][tilePosY];		
+			tile = tiles[tilePosX][tilePosY];
+			
 			if (tile != null) {
 				for (HitBox tileHitBox : tile.getActiveSpriteContainer().getHitBoxes()) {
 					// resolve a lower diagonal collision to either left, right, up, or down.
@@ -208,6 +210,10 @@ public class Layer {
 					if (tileCollision.getCollisionNode().isStopsMovement()) {
 						mob.setDesiredPositionY(mob.getDesiredPositionY() + ((tileCollision.getCollisionHitBox().getPosY() + tileCollision.getCollisionHitBox().getSizeY()) - tileCollision.getActiveHitBox().getPosY()));
 						mob.setVelocityY(0);
+						
+						if (mob.isPawn() && tile != null && tile.isDestructible()) {
+							tile.destroyNode();
+						}
 					}
 					break;
 				case LEFT:
@@ -258,6 +264,7 @@ public class Layer {
 	}
 
 	public void setTile(Tile tile, int xPos, int yPos) {
+		tile.setNodeEventListener(this);
 		tiles[xPos][yPos] = tile;
 	}
 	
@@ -270,6 +277,7 @@ public class Layer {
 	}
 	
 	public void addMob(Mob mob) {
+		mob.setNodeEventListener(this);
 		mobs.add(mob);
 	}
 	
@@ -279,5 +287,10 @@ public class Layer {
 
 	public void setGravityAccl(float gravityAccl) {
 		this.gravityAccl = gravityAccl;
+	}
+
+	@Override
+	public void SpawnMob(Mob mob) {
+		addMob(mob);
 	}
 }

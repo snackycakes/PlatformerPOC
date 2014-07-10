@@ -2,7 +2,7 @@ package platformer.framework;
 
 import platformer.framework.Collision.CollisionType;
 
-public abstract class Actor extends Mob {
+public class Actor extends Mob {
 	
 	protected SpriteContainer standingLeft;
 	protected SpriteContainer standingRight;
@@ -222,6 +222,13 @@ public abstract class Actor extends Mob {
 		if (collision.collisionType == CollisionType.UPPER) {
 			this.applyJumpForce = false;
 		}
+	}
+
+	@Override
+	public void setVelocityY(float speedY) {
+		super.setVelocityY(speedY);
+		applyJumpForce = false;
+		jumpFrameCount = 0;
 	}
 	
 	

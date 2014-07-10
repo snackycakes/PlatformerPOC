@@ -5,10 +5,13 @@ public abstract class Node {
 	protected SpriteContainer activeSpriteContainer;
 	protected SpriteContainer prevSpriteContainer = new SpriteContainer();
 	protected SpriteContainer activationSpriteContainer;
-	protected SpriteContainer destructionSpriteContainer;
 	protected boolean stopsMovement = true;
 	protected boolean canActivate = true;
-	protected boolean canDestroy = false;
+	protected NodeEventListener nodeEventListener;
+	protected boolean isPawn = false;
+	protected boolean isDestructible = false;
+	private boolean isVisible = true;
+	private boolean isInView = true;
 	
 	public Sprite getActiveSprite() {
 		return activeSpriteContainer.getSprite();
@@ -90,10 +93,6 @@ public abstract class Node {
 		this.activationSpriteContainer = activationSpriteContainer;
 	}
 
-	public void setDestructionSpriteConatiner(SpriteContainer destructionSpriteContainer) {
-		this.destructionSpriteContainer = destructionSpriteContainer;
-	}
-
 	public void setCanActivate(boolean canActivate) {
 		this.canActivate = canActivate;
 	}
@@ -111,21 +110,48 @@ public abstract class Node {
 		}
 	}
 	
-	public void setCanDestroy(boolean canDestroy) {
-		this.canDestroy = canDestroy;
-	}
-	
-	public boolean canDestroy() {
-		return canDestroy;
-	}
-	
 	public void destroyNode() {
-		if (canDestroy) {
-			if (destructionSpriteContainer != null) {
-				activeSpriteContainer = destructionSpriteContainer;
-			}
-			stopsMovement = false;
-			canDestroy = false;
-		}
+		isVisible = false;
+		stopsMovement = false;
+	}
+
+	public NodeEventListener getNodeEventListener() {
+		return nodeEventListener;
+	}
+
+	public void setNodeEventListener(NodeEventListener nodeEventListener) {
+		this.nodeEventListener = nodeEventListener;
+	}
+
+	public boolean isPawn() {
+		return isPawn;
+	}
+
+	public void setIsPawn(boolean isPawn) {
+		this.isPawn = isPawn;
+	}
+	
+	public boolean isDestructible() {
+		return isDestructible;
+	}
+
+	public void setDestructible(boolean isDestructible) {
+		this.isDestructible = isDestructible;
+	}
+
+	public boolean isVisible() {
+		return isVisible;
+	}
+
+	public void setVisible(boolean isVisible) {
+		this.isVisible = isVisible;
+	}
+
+	public boolean isInView() {
+		return isInView;
+	}
+
+	public void setInView(boolean isInView) {
+		this.isInView = isInView;
 	}
 }

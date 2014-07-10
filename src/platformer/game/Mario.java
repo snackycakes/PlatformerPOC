@@ -109,17 +109,16 @@ public class Mario extends Pawn {
 			}
 		}
 		
+		if (desiredPosition.getValueX() < minBoundary.getValueX()) {
+			desiredPosition.setValueX(minBoundary.getValueX());
+			setVelocityX(0);
+		}
+			
+		
 		activeSpriteContainer.updateHitBoxes(desiredPosition);
 	}
 
 	@Override
 	public void collisionUpdate(Collision collision) {
-		super.collisionUpdate(collision);
-		
-		if (collision.getCollisionType() == CollisionType.UPPER) {
-			collision.getCollisionNode().destroyNode();
-		}
-	}
-	
-	
+	}	
 }

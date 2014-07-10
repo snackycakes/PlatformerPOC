@@ -102,7 +102,6 @@ public class Assets {
 		public static Sprite ItemBlock3;
 		public static Sprite ItemBlockEmpty;
 		public static Sprite BrownBrick;
-		public static Sprite BrownBrickBreak1;
 		public static Sprite BrownBrickPiece;
 		public static Sprite UGItemBlock1;
 		public static Sprite UGItemBlock2;

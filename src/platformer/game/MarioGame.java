@@ -31,6 +31,7 @@ public class MarioGame extends Game {
 		
 		scene = new Scene();
 		playerMario = new Mario(50, 50);
+		playerMario.setIsPawn(true);
 		scene.setPawn(playerMario);
 		
 		actionLayer = new Layer();
@@ -65,7 +66,9 @@ public class MarioGame extends Game {
 				
 				Tile tile = actionLayer.getTile(xIndex, yIndex);
 				if (tile != null) {
-					g.drawImage(tile.getActiveSprite().getSpriteImage(), (xIndex * Assets.TILESIZE) - scene.getCameraPosition().getPosX(), yIndex * Assets.TILESIZE, observer);
+					if (tile.isVisible()) {
+						g.drawImage(tile.getActiveSprite().getSpriteImage(), (xIndex * Assets.TILESIZE) - scene.getCameraPosition().getPosX(), yIndex * Assets.TILESIZE, observer);
+					}
 					
 					// Test code to display hit boxes
 					if (displayHitBoxes) {
@@ -82,7 +85,7 @@ public class MarioGame extends Game {
 		
 		for (int index = 0; index < actionLayer.getMobs().size(); index++) {
 			Mob mob = actionLayer.getMobs().get(index);
-			g.drawImage(mob.getActiveSprite().getSpriteImage(), playerMario.getPositionX() - scene.getCameraPosition().getPosX(), playerMario.getPositionY(), observer);
+			g.drawImage(mob.getActiveSprite().getSpriteImage(), mob.getPositionX() - scene.getCameraPosition().getPosX(), mob.getPositionY(), observer);
 			
 			// Test code to display hit boxes
 			if (displayHitBoxes) {
@@ -262,8 +265,7 @@ public class MarioGame extends Game {
 		Assets.Sprites.ItemBlock3 = tileSheet.getSprite(427, 45, 16, 16);
 		//public static Sprite ItemBlockEmpty;
 		Assets.Sprites.BrownBrick = tileSheet.getSprite(469, 45, 16, 16);
-		Assets.Sprites.BrownBrickBreak1 = tileSheet.getSprite(0, 0, 1, 1);
-		//public static Sprite BrownBrickPiece;
+		Assets.Sprites.BrownBrickPiece = tileSheet.getSprite(489, 53, 8, 8);
 		//public static Sprite UGItemBlock1;
 		//public static Sprite UGItemBlock2;
 		//public static Sprite UGItemBlock3;

@@ -103,9 +103,8 @@ public class MarioTileLoader {
 						layer.setTile(tile, i, j);
 					}			
 					else if(ch == 'B'){
-						MarioTile tile = new MarioTile(Assets.Sprites.BrownBrick, i * Assets.TILESIZE, j * Assets.TILESIZE);
-						tile.setCanDestroy(true);
-						tile.setDestructionSpriteConatiner(new StaticSprite(Assets.Sprites.BrownBrickBreak1, new OrderedPair(i * Assets.TILESIZE, j * Assets.TILESIZE)));
+						MarioBreakableTile tile = new MarioBreakableTile(Assets.Sprites.BrownBrick, i * Assets.TILESIZE, j * Assets.TILESIZE);
+						tile.setDestructible(true);
 						layer.setTile(tile, i, j);
 					}
 					else if(ch == 'I'){
