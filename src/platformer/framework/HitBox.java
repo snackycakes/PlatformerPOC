@@ -37,8 +37,25 @@ public class HitBox {
 	}
 
 	public boolean checkCollision(HitBox hitBox) {
-		boolean returnValue = false;		
-		returnValue = this.boundingBox.intersects(((HitBox) hitBox).boundingBox);
+		boolean returnValue = false;
+		boolean intersection = false;
+		
+		returnValue = this.boundingBox.intersects(hitBox.boundingBox);
+		if (getIntersection(hitBox) != null) {
+			intersection = true;
+		}
+		return returnValue;
+	}
+	
+	public OrderedPair getIntersection(HitBox hitBox) {
+		OrderedPair returnValue = null;		
+		Rectangle intersection = this.boundingBox.intersection(hitBox.boundingBox);
+		if (intersection.getSize().height > 0 || intersection.getSize().width > 0)
+		{
+			returnValue = new OrderedPair();
+			returnValue.setPosX(intersection.getSize().width);
+			returnValue.setPosY(intersection.getSize().height);
+		}
 		return returnValue;
 	}
 
