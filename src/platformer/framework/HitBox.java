@@ -35,22 +35,11 @@ public class HitBox {
 	{
 		this.position.setPosition(parentPosition.getValueX() + this.boxOffset.getValueX(), parentPosition.getValueY() + this.boxOffset.getValueY());
 	}
-
-	public boolean checkCollision(HitBox hitBox) {
-		boolean returnValue = false;
-		boolean intersection = false;
-		
-		returnValue = this.boundingBox.intersects(hitBox.boundingBox);
-		if (getIntersection(hitBox) != null) {
-			intersection = true;
-		}
-		return returnValue;
-	}
 	
-	public OrderedPair getIntersection(HitBox hitBox) {
+	public OrderedPair checkCollision(HitBox hitBox) {
 		OrderedPair returnValue = null;		
 		Rectangle intersection = this.boundingBox.intersection(hitBox.boundingBox);
-		if (intersection.getSize().height > 0 || intersection.getSize().width > 0)
+		if (intersection.getSize().height > 0 && intersection.getSize().width > 0)
 		{
 			returnValue = new OrderedPair();
 			returnValue.setPosX(intersection.getSize().width);

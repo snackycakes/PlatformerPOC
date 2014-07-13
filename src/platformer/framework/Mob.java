@@ -2,8 +2,6 @@ package platformer.framework;
 
 import java.util.HashMap;
 
-import platformer.framework.Collision.CollisionType;
-
 public abstract class Mob extends Node {
 	protected OrderedPair desiredPosition;
 	protected OrderedPair velocity;
@@ -106,7 +104,7 @@ public abstract class Mob extends Node {
 		this.position.copy(desiredPosition);
 	}
 	
-	public void collisionUpdate(Collision collision) {
+	public void collisionUpdate(TileContainer tileContainer) {
 	}
 	
 	
