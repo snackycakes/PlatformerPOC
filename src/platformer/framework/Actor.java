@@ -1,6 +1,6 @@
 package platformer.framework;
 
-import platformer.framework.Collision.CollisionType;
+import platformer.framework.TileContainer.PositionType;
 
 public class Actor extends Mob {
 	
@@ -216,10 +216,10 @@ public class Actor extends Mob {
 	}
 
 	@Override
-	public void collisionUpdate(Collision collision) {
+	public void collisionUpdate(TileContainer collision) {
 		super.collisionUpdate(collision);
 		
-		if (collision.collisionType == CollisionType.UPPER) {
+		if (collision.getRelativePosition() == PositionType.UPPER) {
 			this.applyJumpForce = false;
 		}
 	}
